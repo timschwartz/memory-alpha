@@ -63,7 +63,8 @@ server/
 │   │   │   └── database.ts          # NEW: download, cancel, file-list, import endpoints + SSE stream
 │   │   └── app.ts                   # MODIFY: mount new database router
 │   └── lib/
-│       └── download-manager.ts      # NEW: download + decompress orchestrator with cancellation
+│       ├── download-manager.ts      # NEW: download + decompress orchestrator with cancellation
+│       └── decompress-worker.ts     # NEW: 7z-wasm Worker thread for non-blocking decompression
 └── tests/
     ├── integration/
     │   └── database-endpoints.test.ts  # NEW

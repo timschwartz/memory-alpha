@@ -95,7 +95,7 @@ Settings Page
 ├── Database Section
 │   ├── XmlFileInfo[]        ← GET /api/database/files
 │   ├── DownloadStatus       ← SSE /api/database/events
-│   └── Import trigger       → POST /api/indexing/start (existing)
+│   └── Import trigger       → POST /api/database/import
 └── Indexing Section
     ├── IndexingStatus       ← GET /api/indexing/status (existing, for initial load)
     └── IndexingProgress     ← SSE /api/indexing/events (new, replaces polling)

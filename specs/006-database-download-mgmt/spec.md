@@ -110,7 +110,7 @@ A user initiates a download but something goes wrong — network failure, insuff
 - **FR-011**: The system MUST display clear error messages when download or decompression fails, and offer a retry option.
 - **FR-012**: The system MUST clean up partial or corrupted files (including the compressed archive) when a download or decompression fails.
 - **FR-013**: The system MUST prevent concurrent download operations.
-- **FR-014**: When the user clicks the import button next to an XML file, the system MUST trigger the existing import pipeline (mw-import) for that specific file. Download and import remain independent operations.
+- **FR-014**: When the user clicks the import button next to an XML file, the system MUST trigger the existing import pipeline (via `server/src/lib/importer.ts`) for that specific file. Download and import remain independent operations. *Note: Real-time progress feedback for the import operation itself is out of scope for this feature — the user can monitor subsequent indexing progress via the Indexing section's SSE stream.*
 - **FR-015**: The system MUST provide a cancel button during an active download or decompression operation. Cancellation MUST abort the operation and clean up any partial or temporary files.
 - **FR-016**: The system MUST use Server-Sent Events (SSE) to push real-time download and decompression progress updates to the client, rather than client-side polling.
 - **FR-017**: The existing indexing progress communication MUST be migrated from polling to SSE for consistency with the download progress mechanism.
@@ -128,7 +128,7 @@ A user initiates a download but something goes wrong — network failure, insuff
 - The server has a 7z decompression capability available (either a system utility or a library).
 - File freshness is determined by the file's local last-modified timestamp, not by querying the remote server for update dates.
 - The download is performed server-side (not in the browser), since the file needs to be stored on the server's filesystem.
-- Progress for the download phase can be determined from HTTP content-length headers; decompression progress may be indeterminate (shown as a spinner or activity indicator rather than a percentage).
+- Progress for the download phase can be determined from HTTP content-length headers; decompression progress is available when 7z-wasm outputs percentage via stdout parsing, with fallback to an indeterminate spinner if parsing fails.
 - The existing indexing section currently uses 2-second polling intervals to check status; this will be migrated to SSE as part of this feature for a unified progress communication pattern.
 
 ## Success Criteria *(mandatory)*
