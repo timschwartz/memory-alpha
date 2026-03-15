@@ -22,7 +22,7 @@ The Express app is created via a `createApp(db)` factory function. The factory i
 
 - better-sqlite3 is synchronous and blocks the event loop during query execution. For well-indexed read queries returning in <10ms, this is acceptable for 50 concurrent reads.
 - WAL mode (already enabled) allows multiple concurrent reads at the SQLite level.
-- **Exception**: The FTS5 rebuild operation can take seconds/minutes on 223K pages. This must run either as a CLI command (separate process) or in a Worker thread — not on the main Express thread.
+- **Exception**: The FTS5 rebuild operation can take seconds/minutes on 223K pages. For scripted workflows, use the CLI command (`mw-index`) as a separate process. The `POST /api/search/rebuild` endpoint blocks the main Express thread for the duration of the rebuild — this is acceptable for a local-only application with no concurrent user requirement during index builds. The 409 guard prevents multiple simultaneous rebuilds.
 
 ### Alternatives Considered
 

@@ -34,7 +34,7 @@ Build an Express.js REST API server that exposes the imported MediaWiki data (pa
 | VII. Monorepo Structure | ✅ PASS | Code in server/ workspace; shared types in shared/; extends spec-001 codebase |
 | VIII. MediaWiki XML Import | ⬜ N/A | Import handled by spec-001; this spec reads the imported data |
 | IX. Wiki Content Features | ✅ PASS | Browsing by title, full-text search, category navigation all covered; wikitext returned as-is (rendering deferred to frontend spec) |
-| X. Local-Only Deployment | ✅ PASS | No cloud services; single `npm start` command; all data local |
+| X. Local-Only Deployment | ✅ PASS | No cloud services; single `npm run serve` command; all data local |
 
 **Gate result**: ✅ PASS — no violations.
 

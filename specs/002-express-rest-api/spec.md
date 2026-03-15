@@ -98,7 +98,7 @@ In production mode, the Express server serves the Vite-built React frontend from
 1. **Given** a production build of the frontend exists in the expected directory, **When** a client requests `/`, **Then** the server returns `index.html`.
 2. **Given** a production build exists, **When** a client requests `/some/client/route`, **Then** the server returns `index.html` (SPA fallback).
 3. **Given** a production build exists, **When** a client requests `/api/pages`, **Then** the server returns JSON (API routes take precedence over static fallback).
-4. **Given** no frontend build directory exists, **When** the server starts, **Then** API endpoints still function correctly and requests to non-API routes return a helpful message indicating no frontend build is available.
+4. **Given** no frontend build directory exists, **When** the server starts, **Then** API endpoints still function correctly and requests to non-API routes return a JSON `ApiResponse` with error code `NOT_FOUND` and message "No frontend build available. Run 'npm run build' in client/ to generate static assets."
 
 ---
 
@@ -122,7 +122,7 @@ The server starts with a single command, auto-initializes the database connectio
 ### Edge Cases
 
 - What happens when a page title contains URL-unsafe characters (spaces, slashes, unicode)? The API MUST accept URL-encoded titles and decode them correctly.
-- What happens when the database file is locked by an ongoing import? The API MUST return a 503 status with a retry-after header, since SQLite WAL mode allows concurrent reads but the import holds long write transactions.
+- What happens when the database file is locked by an ongoing import? The API MUST return a 503 status with a `Retry-After: 5` header (5 seconds), since SQLite WAL mode allows concurrent reads but the import holds long write transactions.
 - What happens when the FTS5 index does not exist yet? The search endpoint MUST return a 503 status with a message indicating the search index needs to be built.
 - What happens when a search query contains FTS5 special syntax characters (AND, OR, NOT, *, quotes)? The API MUST sanitize the query to prevent FTS5 syntax errors while still supporting basic prefix matching with `*`.
 - What happens when `limit` or `offset` query parameters are negative or non-numeric? The API MUST validate inputs and return a 400 status with a descriptive error message.
@@ -158,7 +158,7 @@ The server starts with a single command, auto-initializes the database connectio
 - **Page Detail**: Full representation of a page for single-article responses: page ID, title, namespace ID, namespace name, latest revision content, revision timestamp, contributor name.
 - **Search Result**: A page match from the FTS5 query: page ID, title, namespace name, relevance rank, text snippet with match highlights.
 - **Category Summary**: A category with its article count: category ID, name, page count.
-- **FTS5 Index**: Virtual table (`pages_fts`) indexing the text content of the latest revision for each page, enabling full-text search with ranking and snippet extraction.
+- **FTS5 Index**: Virtual table (`search_index`) indexing the text content of the latest revision for each page, enabling full-text search with ranking and snippet extraction.
 
 ## Success Criteria *(mandatory)*
 

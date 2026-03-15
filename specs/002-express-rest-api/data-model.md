@@ -259,6 +259,15 @@ ORDER BY r.revision_id DESC
 LIMIT 1;
 ```
 
+**Note**: Categories for the page (`PageDetail.categories`) require a separate query:
+
+```sql
+SELECT c.name FROM categories c
+JOIN page_categories pc ON pc.category_id = c.category_id
+WHERE pc.page_id = ?
+ORDER BY c.name;
+```
+
 ### List pages with pagination (US2)
 
 ```sql
