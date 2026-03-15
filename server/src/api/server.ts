@@ -2,7 +2,7 @@ import { initializeDatabase } from '../models/database.js';
 import { createApp } from './app.js';
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
-const DATABASE_PATH = process.env.DATABASE_PATH || './memory-alpha.db';
+const DATABASE_PATH = process.env.DATABASE_PATH || '../memory-alpha.db';
 const STATIC_DIR = process.env.STATIC_DIR || '../client/dist';
 const CORS_ORIGIN = process.env.CORS_ORIGIN || 'http://localhost:5173';
 

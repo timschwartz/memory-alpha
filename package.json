@@ -4,7 +4,8 @@
   "private": true,
   "workspaces": [
     "shared",
-    "server"
+    "server",
+    "client"
   ],
   "scripts": {
     "build": "npm run build --workspaces",

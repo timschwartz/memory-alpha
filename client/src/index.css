@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+/* Wiki content styling */
+@layer components {
+  .wiki-content h1 {
+    @apply text-3xl font-bold mt-6 mb-3 pb-1 border-b border-gray-300;
+  }
+  .wiki-content h2 {
+    @apply text-2xl font-bold mt-5 mb-2 pb-1 border-b border-gray-200;
+  }
+  .wiki-content h3 {
+    @apply text-xl font-semibold mt-4 mb-2;
+  }
+  .wiki-content h4 {
+    @apply text-lg font-semibold mt-3 mb-1;
+  }
+  .wiki-content h5 {
+    @apply text-base font-semibold mt-2 mb-1;
+  }
+  .wiki-content h6 {
+    @apply text-sm font-semibold mt-2 mb-1;
+  }
+  .wiki-content p {
+    @apply my-2 leading-relaxed;
+  }
+  .wiki-content ul {
+    @apply list-disc ml-6 my-2;
+  }
+  .wiki-content ol {
+    @apply list-decimal ml-6 my-2;
+  }
+  .wiki-content li {
+    @apply my-0.5;
+  }
+  .wiki-content table {
+    @apply border-collapse border border-gray-300 my-4 w-full;
+  }
+  .wiki-content th {
+    @apply border border-gray-300 bg-gray-100 px-3 py-1.5 text-left font-semibold;
+  }
+  .wiki-content td {
+    @apply border border-gray-300 px-3 py-1.5;
+  }
+  .wiki-content tr:nth-child(even) {
+    @apply bg-gray-50;
+  }
+  .wiki-content blockquote {
+    @apply border-l-4 border-gray-300 pl-4 my-3 italic text-gray-700;
+  }
+  .wiki-content pre {
+    @apply bg-gray-100 rounded p-3 my-3 overflow-x-auto text-sm;
+  }
+  .wiki-content code {
+    @apply bg-gray-100 rounded px-1 py-0.5 text-sm;
+  }
+  .wiki-content pre code {
+    @apply bg-transparent p-0;
+  }
+  .wiki-content dl {
+    @apply my-2;
+  }
+  .wiki-content dt {
+    @apply font-semibold;
+  }
+  .wiki-content dd {
+    @apply ml-6 mb-1;
+  }
+  .wiki-content a {
+    @apply text-blue-600 hover:underline;
+  }
+  .wiki-content a[href^="http"] {
+    @apply after:content-['↗'] after:text-xs after:ml-0.5 after:text-gray-400;
+  }
+  .wiki-content hr {
+    @apply my-4 border-gray-300;
+  }
+  .wiki-content .infobox {
+    @apply border border-gray-300 bg-gray-50 rounded p-3 my-3 float-right ml-4 max-w-xs text-sm;
+  }
+  .wiki-content .infobox .infobox-title {
+    @apply font-bold text-center mb-2 text-base;
+  }
+  .wiki-content .infobox table {
+    @apply border-0 w-full;
+  }
+  .wiki-content .infobox th,
+  .wiki-content .infobox td {
+    @apply border-0 px-1 py-0.5;
+  }
+  .wiki-content .template-block {
+    @apply border border-dashed border-gray-400 bg-gray-50 rounded p-2 my-2 text-sm;
+  }
+  .wiki-content .image-placeholder {
+    @apply border border-gray-300 bg-gray-100 rounded p-2 my-2 text-center text-sm text-gray-500 italic;
+  }
+}
