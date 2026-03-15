@@ -125,7 +125,7 @@ A user navigates to the Settings page from the main navigation. The Settings pag
 - **FR-001**: The index CLI MUST display a progress indicator during indexing showing percentage complete, pages indexed, and total pages.
 - **FR-002**: The progress indicator MUST update in-place on the terminal (overwrite the current line) rather than printing a new line per update.
 - **FR-003**: The indexer MUST track which pages have been indexed so that interrupted runs can be resumed.
-- **FR-004**: When resumed, the indexer MUST skip already-indexed pages and only process remaining pages.
+- **FR-004**: When resumed, the indexer MUST skip already-indexed pages and only process remaining pages. *(Note: FR-004 and FR-013 share the same underlying mechanism — the `NOT IN (SELECT rowid FROM search_index)` query identifies both un-indexed and newly imported pages.)*
 - **FR-005**: When all pages are already indexed, the indexer MUST report the index is up to date and exit without re-processing.
 - **FR-006**: The indexer MUST commit indexed pages in batches of 500 pages so that progress is preserved even if the process is interrupted between batches.
 - **FR-007**: The server MUST expose an endpoint to trigger indexing that starts the process in the background and returns immediately.
@@ -133,14 +133,15 @@ A user navigates to the Settings page from the main navigation. The Settings pag
 - **FR-009**: The server MUST expose an endpoint to query the current indexing status including state (idle/in-progress/complete), pages indexed, total pages, percentage, and elapsed time.
 - **FR-010**: The frontend MUST include a Settings page accessible from the main navigation.
 - **FR-011**: The Settings page MUST display an Indexing section with the current index status and two distinct controls: "Continue Indexing" (resume from checkpoint) and "Rebuild Index" (wipe existing index and re-index all pages from scratch).
-- **FR-012**: The Settings page MUST display a live progress indicator that updates automatically by polling the status endpoint at a regular interval (e.g., every 2 seconds) while indexing is in progress.
+- **FR-012**: The Settings page MUST display a live progress indicator that updates automatically by polling the status endpoint every 2 seconds while indexing is in progress.
 - **FR-013**: The indexer MUST detect newly imported pages that are not yet in the search index and include them in subsequent indexing runs.
 - **FR-014**: The index CLI MUST support a rebuild flag that wipes the existing index and re-indexes all pages from scratch, providing the same full re-index capability as the Settings page "Rebuild Index" action.
 
 ### Key Entities
 
-- **Index Job**: Represents a single indexing operation. Key attributes: state (idle, in-progress, complete), pages indexed so far, total indexable pages, start time, end time.
-- **Index Progress Checkpoint**: Tracks which pages have been indexed to enable resume capability. Links pages to their indexing status.
+- **IndexingStatus** (shared type): Represents the current state of an indexing operation. Key attributes: state (idle, in-progress, complete), indexedPages, totalPages, percentage, startedAt, completedAt, durationMs. See data-model.md for full definition.
+- **IndexingStartRequest** (API request body): Specifies the indexing mode — `continue` (resume from checkpoint) or `rebuild` (wipe and re-index). See contracts/api.md.
+- **Index Resume Mechanism**: Tracks which pages have been indexed via the existing FTS5 `search_index.rowid` column. No additional checkpoint table is needed.
 
 ## Success Criteria *(mandatory)*
 
