@@ -19,8 +19,8 @@
 
 **Purpose**: Install new dependencies and configure project scripts for the API server
 
-- [ ] T001 Install express, cors, @types/express, and @types/cors as dependencies and supertest and @types/supertest as devDependencies in server/package.json
-- [ ] T002 [P] Add `serve` script (`ts-node src/api/server.ts`) and `mw-index` bin entry (`src/cli/index-search.ts`) to server/package.json
+- [X] T001 Install express, cors, @types/express, and @types/cors as dependencies and supertest and @types/supertest as devDependencies in server/package.json
+- [X] T002 [P] Add `serve` script (`ts-node src/api/server.ts`) and `mw-index` bin entry (`src/cli/index-search.ts`) to server/package.json
 
 ---
 
@@ -30,15 +30,15 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T003 Add shared API response types (ApiResponse\<T\>, PaginationMeta, ApiError, PageSummary, PageDetail, SearchResult, CategorySummary, HealthStatus) to shared/src/types/wiki.ts and re-export from shared/src/index.ts
-- [ ] T004 Add migration v2 creating FTS5 search_index virtual table (`content=''`, `contentless_delete=1`, `tokenize='porter unicode61'`, `prefix='2 3'`) and idx_pages_title_namespace composite index in server/src/models/database.ts
-- [ ] T005 [P] Extend PageModel with getByTitle(title, namespaceId), getById(pageId), list(limit, offset, prefix?, namespaceId?), and count(prefix?, namespaceId?) prepared-statement read queries in server/src/models/page.ts
-- [ ] T006 [P] Extend RevisionModel with getLatestByPageId(pageId) prepared-statement read query in server/src/models/revision.ts
-- [ ] T007 [P] Extend NamespaceModel with getAll() and getByName(name) prepared-statement read queries in server/src/models/namespace.ts
-- [ ] T008 [P] Extend CategoryModel with list(limit, offset, prefix?), count(prefix?), getByName(name), getPagesByCategory(categoryId, limit, offset), and getCategoriesByPageId(pageId) prepared-statement read queries in server/src/models/category.ts
-- [ ] T009 [P] Implement query parameter validation helpers (parsePaginationParams with limit 1–100 and offset >= 0, parseIntParam) in server/src/api/middleware/validate.ts
-- [ ] T010 [P] Implement structured JSON request logger middleware (method, path, status, durationMs to stdout) in server/src/api/middleware/request-logger.ts
-- [ ] T011 [P] Implement centralized error handler middleware mapping errors to ApiResponse envelope with appropriate HTTP status codes (including SQLITE_BUSY/LOCKED → 503 with Retry-After: 5 header) in server/src/api/middleware/error-handler.ts
+- [X] T003 Add shared API response types (ApiResponse\<T\>, PaginationMeta, ApiError, PageSummary, PageDetail, SearchResult, CategorySummary, HealthStatus) to shared/src/types/wiki.ts and re-export from shared/src/index.ts
+- [X] T004 Add migration v2 creating FTS5 search_index virtual table (`content=''`, `contentless_delete=1`, `tokenize='porter unicode61'`, `prefix='2 3'`) and idx_pages_title_namespace composite index in server/src/models/database.ts
+- [X] T005 [P] Extend PageModel with getByTitle(title, namespaceId), getById(pageId), list(limit, offset, prefix?, namespaceId?), and count(prefix?, namespaceId?) prepared-statement read queries in server/src/models/page.ts
+- [X] T006 [P] Extend RevisionModel with getLatestByPageId(pageId) prepared-statement read query in server/src/models/revision.ts
+- [X] T007 [P] Extend NamespaceModel with getAll() and getByName(name) prepared-statement read queries in server/src/models/namespace.ts
+- [X] T008 [P] Extend CategoryModel with list(limit, offset, prefix?), count(prefix?), getByName(name), getPagesByCategory(categoryId, limit, offset), and getCategoriesByPageId(pageId) prepared-statement read queries in server/src/models/category.ts
+- [X] T009 [P] Implement query parameter validation helpers (parsePaginationParams with limit 1–100 and offset >= 0, parseIntParam) in server/src/api/middleware/validate.ts
+- [X] T010 [P] Implement structured JSON request logger middleware (method, path, status, durationMs to stdout) in server/src/api/middleware/request-logger.ts
+- [X] T011 [P] Implement centralized error handler middleware mapping errors to ApiResponse envelope with appropriate HTTP status codes (including SQLITE_BUSY/LOCKED → 503 with Retry-After: 5 header) in server/src/api/middleware/error-handler.ts
 
 **Checkpoint**: Foundation ready — shared types defined, database migration registered, all models support read queries, middleware available for route handlers
 
@@ -52,9 +52,9 @@
 
 ### Implementation for User Story 6
 
-- [ ] T012 [US6] Implement Express app factory createApp(db, options) mounting request logger, CORS (configurable origin), JSON body parser, API route routers, and error handler in server/src/api/app.ts
-- [ ] T013 [P] [US6] Implement GET /api/health route returning HealthStatus (status, database connection, totalPages, totalCategories, searchIndexReady) in server/src/api/routes/health.ts
-- [ ] T014 [US6] Implement server entry point reading env vars (PORT, DATABASE_PATH, STATIC_DIR, CORS_ORIGIN), calling initializeDatabase and createApp, and listening on configured port with startup log in server/src/api/server.ts
+- [X] T012 [US6] Implement Express app factory createApp(db, options) mounting request logger, CORS (configurable origin), JSON body parser, API route routers, and error handler in server/src/api/app.ts
+- [X] T013 [P] [US6] Implement GET /api/health route returning HealthStatus (status, database connection, totalPages, totalCategories, searchIndexReady) in server/src/api/routes/health.ts
+- [X] T014 [US6] Implement server entry point reading env vars (PORT, DATABASE_PATH, STATIC_DIR, CORS_ORIGIN), calling initializeDatabase and createApp, and listening on configured port with startup log in server/src/api/server.ts
 
 **Checkpoint**: `npm run serve` starts the server, `GET /api/health` returns database status — server startup story is complete
 
@@ -68,9 +68,9 @@
 
 ### Implementation for User Story 1
 
-- [ ] T015 [US1] Implement pages router with namespace prefix resolution helper (parse "Category:Starships" into namespace + title via NamespaceModel.getByName) and GET /api/pages/:title route returning PageDetail in server/src/api/routes/pages.ts
-- [ ] T016 [US1] Implement GET /api/pages/by-id/:pageId route returning PageDetail (validate pageId is integer, 404 if not found) in server/src/api/routes/pages.ts
-- [ ] T017 [US1] Mount pages router on /api/pages in server/src/api/app.ts
+- [X] T015 [US1] Implement pages router with namespace prefix resolution helper (parse "Category:Starships" into namespace + title via NamespaceModel.getByName) and GET /api/pages/:title route returning PageDetail in server/src/api/routes/pages.ts
+- [X] T016 [US1] Implement GET /api/pages/by-id/:pageId route returning PageDetail (validate pageId is integer, 404 if not found) in server/src/api/routes/pages.ts
+- [X] T017 [US1] Mount pages router on /api/pages in server/src/api/app.ts
 
 **Checkpoint**: Can retrieve any article by title or page ID — core wiki viewer read operation works
 
@@ -84,7 +84,7 @@
 
 ### Implementation for User Story 2
 
-- [ ] T018 [US2] Implement GET /api/pages list route with limit (default 20, max 100), offset (default 0), prefix, and namespace query parameters returning paginated PageSummary array in server/src/api/routes/pages.ts
+- [X] T018 [US2] Implement GET /api/pages list route with limit (default 20, max 100), offset (default 0), prefix, and namespace query parameters returning paginated PageSummary array in server/src/api/routes/pages.ts
 
 **Checkpoint**: Can browse and filter all articles with pagination — content discovery works
 
@@ -98,11 +98,11 @@
 
 ### Implementation for User Story 3
 
-- [ ] T019 [US3] Implement FTS5Indexer class with build (DELETE + INSERT from pages/revisions), isIndexReady (check sqlite_master), search (sanitized FTS5 MATCH query with snippet and rank), and searchCount methods in server/src/lib/fts5-indexer.ts
-- [ ] T020 [US3] Implement mw-index CLI command (commander) that opens database, calls FTS5Indexer.build, and logs indexed page count and duration in server/src/cli/index-search.ts
-- [ ] T021 [US3] Implement GET /api/search route with q (required), limit, offset parameters returning paginated SearchResult array (503 if index not built) in server/src/api/routes/search.ts
-- [ ] T022 [US3] Implement POST /api/search/rebuild route with in-progress flag guard (409 if rebuild already running) returning indexedPages and durationMs in server/src/api/routes/search.ts
-- [ ] T023 [US3] Mount search router on /api/search in server/src/api/app.ts
+- [X] T019 [US3] Implement FTS5Indexer class with build (DELETE + INSERT from pages/revisions), isIndexReady (check sqlite_master), search (sanitized FTS5 MATCH query with snippet and rank), and searchCount methods in server/src/lib/fts5-indexer.ts
+- [X] T020 [US3] Implement mw-index CLI command (commander) that opens database, calls FTS5Indexer.build, and logs indexed page count and duration in server/src/cli/index-search.ts
+- [X] T021 [US3] Implement GET /api/search route with q (required), limit, offset parameters returning paginated SearchResult array (503 if index not built) in server/src/api/routes/search.ts
+- [X] T022 [US3] Implement POST /api/search/rebuild route with in-progress flag guard (409 if rebuild already running) returning indexedPages and durationMs in server/src/api/routes/search.ts
+- [X] T023 [US3] Mount search router on /api/search in server/src/api/app.ts
 
 **Checkpoint**: Full-text search works end-to-end — users can discover articles by content
 
@@ -116,9 +116,9 @@
 
 ### Implementation for User Story 4
 
-- [ ] T024 [P] [US4] Implement GET /api/categories route with limit, offset, prefix query parameters returning paginated CategorySummary array in server/src/api/routes/categories.ts
-- [ ] T025 [US4] Implement GET /api/categories/:name/pages route with limit, offset parameters returning paginated PageSummary array (404 if category not found) in server/src/api/routes/categories.ts
-- [ ] T026 [US4] Mount categories router on /api/categories in server/src/api/app.ts
+- [X] T024 [P] [US4] Implement GET /api/categories route with limit, offset, prefix query parameters returning paginated CategorySummary array in server/src/api/routes/categories.ts
+- [X] T025 [US4] Implement GET /api/categories/:name/pages route with limit, offset parameters returning paginated PageSummary array (404 if category not found) in server/src/api/routes/categories.ts
+- [X] T026 [US4] Mount categories router on /api/categories in server/src/api/app.ts
 
 **Checkpoint**: Category browsing works — secondary content discovery path available
 
@@ -132,8 +132,8 @@
 
 ### Implementation for User Story 5
 
-- [ ] T027 [US5] Add express.static middleware for STATIC_DIR and SPA catch-all fallback (`GET *` returns index.html) with fs.existsSync guard (skip if dir absent) in server/src/api/app.ts
-- [ ] T028 [US5] Make CORS middleware conditional — enabled only when STATIC_DIR does not exist (development mode), disabled in production (same-origin) in server/src/api/app.ts
+- [X] T027 [US5] Add express.static middleware for STATIC_DIR and SPA catch-all fallback (`GET *` returns index.html) with fs.existsSync guard (skip if dir absent) in server/src/api/app.ts
+- [X] T028 [US5] Make CORS middleware conditional — enabled only when STATIC_DIR does not exist (development mode), disabled in production (same-origin) in server/src/api/app.ts
 
 **Checkpoint**: Single `npm run serve` command serves both API and frontend — deployment story complete
 
@@ -143,12 +143,12 @@
 
 **Purpose**: Unit and integration tests per Constitution Principle VI (Vitest Testing)
 
-- [ ] T029 [P] Write unit tests for validation helpers (parsePaginationParams, parseIntParam edge cases) in server/tests/unit/validate.test.ts
-- [ ] T030 [P] Write unit tests for FTS5Indexer (build, search, query sanitization, isIndexReady) using in-memory database in server/tests/unit/fts5-indexer.test.ts
-- [ ] T031 [P] Write unit tests for pages routes (get by title, get by ID, list, namespace resolution, 404 handling) using supertest + createApp in server/tests/unit/pages-route.test.ts
-- [ ] T032 [P] Write unit tests for search routes (search query, empty results, missing q param, 503 no index, rebuild 409) using supertest + createApp in server/tests/unit/search-route.test.ts
-- [ ] T033 [P] Write unit tests for categories routes (list, prefix filter, pages in category, 404 unknown category) using supertest + createApp in server/tests/unit/categories-route.test.ts
-- [ ] T034 Write integration tests for full API endpoint flow (health → pages → search → categories) against populated in-memory database in server/tests/integration/api-endpoints.test.ts
+- [X] T029 [P] Write unit tests for validation helpers (parsePaginationParams, parseIntParam edge cases) in server/tests/unit/validate.test.ts
+- [X] T030 [P] Write unit tests for FTS5Indexer (build, search, query sanitization, isIndexReady) using in-memory database in server/tests/unit/fts5-indexer.test.ts
+- [X] T031 [P] Write unit tests for pages routes (get by title, get by ID, list, namespace resolution, 404 handling) using supertest + createApp in server/tests/unit/pages-route.test.ts
+- [X] T032 [P] Write unit tests for search routes (search query, empty results, missing q param, 503 no index, rebuild 409) using supertest + createApp in server/tests/unit/search-route.test.ts
+- [X] T033 [P] Write unit tests for categories routes (list, prefix filter, pages in category, 404 unknown category) using supertest + createApp in server/tests/unit/categories-route.test.ts
+- [X] T034 Write integration tests for full API endpoint flow (health → pages → search → categories) against populated in-memory database in server/tests/integration/api-endpoints.test.ts
 
 **Checkpoint**: All tests pass — code quality verified
 
@@ -158,8 +158,8 @@
 
 **Purpose**: Final validation and cleanup
 
-- [ ] T035 [P] Update server/tsconfig.json if needed for new source directories (src/api/**)
-- [ ] T036 Validate quickstart.md steps end-to-end (install → build → import → index → serve → verify curl commands)
+- [X] T035 [P] Update server/tsconfig.json if needed for new source directories (src/api/**)
+- [X] T036 Validate quickstart.md steps end-to-end (install → build → import → index → serve → verify curl commands)
 
 ---
 

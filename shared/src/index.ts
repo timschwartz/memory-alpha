@@ -5,4 +5,12 @@ export type {
   ImportOptions,
   ImportProgress,
   ImportResult,
+  ApiResponse,
+  PaginationMeta,
+  ApiError,
+  PageSummary,
+  PageDetail,
+  SearchResult,
+  CategorySummary,
+  HealthStatus,
 } from './types/wiki.js';

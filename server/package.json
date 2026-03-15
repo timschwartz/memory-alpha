@@ -4,20 +4,28 @@
   "private": true,
   "type": "module",
   "bin": {
-    "mw-import": "./dist/cli/import.js"
+    "mw-import": "./dist/cli/import.js",
+    "mw-index": "./dist/cli/index-search.js"
   },
   "scripts": {
     "build": "tsc",
-    "start": "node dist/cli/import.js"
+    "start": "node dist/cli/import.js",
+    "serve": "node dist/api/server.js"
   },
   "dependencies": {
+    "@memory-alpha/shared": "*",
     "better-sqlite3": "^11.0.0",
     "commander": "^14.0.0",
-    "saxes": "^6.0.0",
-    "@memory-alpha/shared": "*"
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "saxes": "^6.0.0"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/supertest": "^7.2.0",
+    "supertest": "^7.2.2",
     "typescript": "^5.7.0",
     "vitest": "^3.0.0"
   }

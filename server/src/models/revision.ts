@@ -3,6 +3,7 @@ import type { RevisionData } from '@memory-alpha/shared';
 
 export class RevisionModel {
   private upsertStmt: Database.Statement;
+  private getLatestByPageIdStmt: Database.Statement;
 
   constructor(private db: Database.Database) {
     this.upsertStmt = db.prepare(`
@@ -23,6 +24,14 @@ export class RevisionModel {
         text_content = excluded.text_content,
         sha1 = excluded.sha1
     `);
+
+    this.getLatestByPageIdStmt = db.prepare(`
+      SELECT revision_id, page_id, text_content, timestamp, contributor_name
+      FROM revisions
+      WHERE page_id = ?
+      ORDER BY revision_id DESC
+      LIMIT 1
+    `);
   }
 
   upsert(revision: RevisionData): void {
@@ -35,5 +44,9 @@ export class RevisionModel {
       text_content: revision.text_content ?? null,
       sha1: revision.sha1 ?? null,
     });
+  }
+
+  getLatestByPageId(pageId: number): Record<string, unknown> | undefined {
+    return this.getLatestByPageIdStmt.get(pageId) as Record<string, unknown> | undefined;
   }
 }

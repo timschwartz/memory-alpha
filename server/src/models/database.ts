@@ -1,6 +1,6 @@
 import Database from 'better-sqlite3';
 
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 2;
 
 const MIGRATIONS: Record<number, string[]> = {
   1: [
@@ -53,6 +53,20 @@ const MIGRATIONS: Record<number, string[]> = {
       FOREIGN KEY (page_id) REFERENCES pages(page_id) ON DELETE CASCADE,
       FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE
     )`,
+  ],
+
+  2: [
+    `CREATE VIRTUAL TABLE IF NOT EXISTS search_index USING fts5(
+      title,
+      text_content,
+      content='',
+      contentless_delete=1,
+      tokenize='porter unicode61',
+      prefix='2 3'
+    )`,
+
+    `CREATE INDEX IF NOT EXISTS idx_pages_title_namespace
+      ON pages(namespace_id, title)`,
   ],
 };
 

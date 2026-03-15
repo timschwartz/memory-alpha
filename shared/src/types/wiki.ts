@@ -47,3 +47,66 @@ export interface ImportResult {
   skippedPages: number;
   durationMs: number;
 }
+
+// API Response Types
+
+export interface ApiResponse<T> {
+  data: T | null;
+  meta: PaginationMeta | null;
+  error: ApiError | null;
+}
+
+export interface PaginationMeta {
+  total: number;
+  limit: number;
+  offset: number;
+  hasMore: boolean;
+}
+
+export interface ApiError {
+  code: string;
+  message: string;
+}
+
+export interface PageSummary {
+  page_id: number;
+  title: string;
+  namespace_id: number;
+  namespace_name: string;
+}
+
+export interface PageDetail {
+  page_id: number;
+  title: string;
+  namespace_id: number;
+  namespace_name: string;
+  latest_revision: {
+    revision_id: number;
+    text_content: string | null;
+    timestamp: string;
+    contributor_name: string | null;
+  };
+  categories: string[];
+}
+
+export interface SearchResult {
+  page_id: number;
+  title: string;
+  namespace_name: string;
+  snippet: string;
+  rank: number;
+}
+
+export interface CategorySummary {
+  category_id: number;
+  name: string;
+  page_count: number;
+}
+
+export interface HealthStatus {
+  status: string;
+  database: string;
+  totalPages: number;
+  totalCategories: number;
+  searchIndexReady: boolean;
+}
