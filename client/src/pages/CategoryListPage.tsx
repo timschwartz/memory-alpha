@@ -33,7 +33,7 @@ export default function CategoryListPage() {
 
   return (
     <div>
-      <h1 className="mb-4 text-xl font-semibold">Categories</h1>
+      <h1 className="mb-4 text-xl font-semibold text-lcars-black dark:text-lcars-text-d">Categories</h1>
 
       <div className="mb-4">
         <input
@@ -45,29 +45,29 @@ export default function CategoryListPage() {
             if (e.target.value) params.prefix = e.target.value;
             setSearchParams(params);
           }}
-          className="rounded border border-gray-300 px-3 py-1.5 text-sm focus:border-blue-500 focus:outline-none"
+          className="rounded border border-lcars-lilac dark:border-lcars-lilac-d bg-white dark:bg-lcars-surface-d px-3 py-1.5 text-sm text-lcars-black dark:text-lcars-text-d placeholder:text-lcars-gray dark:placeholder:text-lcars-gray-d focus:border-lcars-blue dark:focus:border-lcars-blue-d focus:outline-none"
         />
       </div>
 
       {loading ? (
         <LoadingSpinner text="Loading categories..." />
       ) : (
-        <>
+        <div className="rounded-lg bg-lcars-surface dark:bg-lcars-surface-d p-4">
           <ul className="space-y-2">
             {(data?.categories ?? []).map((cat) => (
               <li key={cat.category_id} className="flex items-center gap-2">
                 <Link
                   to={`/categories/${encodeURIComponent(cat.name)}`}
-                  className="text-blue-600 hover:underline"
+                  className="text-lcars-blue dark:text-lcars-blue-d hover:underline"
                 >
                   {cat.name}
                 </Link>
-                <span className="text-sm text-gray-400">({cat.page_count} articles)</span>
+                <span className="text-sm text-lcars-gray dark:text-lcars-gray-d">({cat.page_count} articles)</span>
               </li>
             ))}
           </ul>
           {data?.meta && <Pagination meta={data.meta} onPageChange={handlePageChange} />}
-        </>
+        </div>
       )}
     </div>
   );

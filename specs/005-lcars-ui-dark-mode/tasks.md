@@ -17,10 +17,10 @@
 
 **Purpose**: Tailwind CSS v4 dark mode configuration, LCARS color token definitions, and FOUC prevention
 
-- [ ] T001 Add `@custom-variant dark` and LCARS color palette `@theme` tokens (24 oklch colors: 12 light + 12 dark) in client/src/index.css
-- [ ] T002 Add inline FOUC-prevention `<script>` in `<head>` of client/index.html that reads localStorage key `"theme"` and applies `dark` class to `<html>` before first paint
-- [ ] T003 Create ThemeProvider context and `useTheme` hook with `preference` / `effectiveMode` / `setPreference` in client/src/hooks/useTheme.ts — includes one-time `matchMedia` check on mount to resolve "auto" to initial `effectiveMode`; real-time change event listener deferred to T032
-- [ ] T004 Create unit tests for useTheme hook — preference read/write, effectiveMode resolution, localStorage persistence, invalid-value fallback to auto, DOM class toggling in client/tests/unit/useTheme.test.ts
+- [x] T001 Add `@custom-variant dark` and LCARS color palette `@theme` tokens (24 oklch colors: 12 light + 12 dark) in client/src/index.css
+- [x] T002 Add inline FOUC-prevention `<script>` in `<head>` of client/index.html that reads localStorage key `"theme"` and applies `dark` class to `<html>` before first paint
+- [x] T003 Create ThemeProvider context and `useTheme` hook with `preference` / `effectiveMode` / `setPreference` in client/src/hooks/useTheme.ts — includes one-time `matchMedia` check on mount to resolve "auto" to initial `effectiveMode`; real-time change event listener deferred to T032
+- [x] T004 Create unit tests for useTheme hook — preference read/write, effectiveMode resolution, localStorage persistence, invalid-value fallback to auto, DOM class toggling in client/tests/unit/useTheme.test.ts
 
 ---
 
@@ -30,9 +30,9 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T005 Wrap app root with `ThemeProvider` and update the `Layout` component in client/src/App.tsx to use LCARS page shell (bg-lcars-bg dark:bg-lcars-bg-d page background, optional side bar with end-cap, bottom accent bar)
-- [ ] T006 Restyle Header with LCARS-inspired design (rounded end-cap, title area, horizontal accent bar, inline nav links, search bar) for desktop (≥ 768px) in client/src/components/Header.tsx
-- [ ] T007 Add hamburger menu to Header for mobile (< 768px) with accessible `<button>` (aria-expanded, aria-controls, aria-label), slide-down nav panel, and Escape key handling in client/src/components/Header.tsx
+- [x] T005 Wrap app root with `ThemeProvider` and update the `Layout` component in client/src/App.tsx to use LCARS page shell (bg-lcars-bg dark:bg-lcars-bg-d page background, optional side bar with end-cap, bottom accent bar)
+- [x] T006 Restyle Header with LCARS-inspired design (rounded end-cap, title area, horizontal accent bar, inline nav links, search bar) for desktop (≥ 768px) in client/src/components/Header.tsx
+- [x] T007 Add hamburger menu to Header for mobile (< 768px) with accessible `<button>` (aria-expanded, aria-controls, aria-label), slide-down nav panel, and Escape key handling in client/src/components/Header.tsx
 
 **Checkpoint**: LCARS shell is visible on all pages. Theme provider is active. Dark class can be toggled manually. Mobile hamburger menu works.
 
@@ -46,16 +46,16 @@
 
 ### Implementation for User Story 1
 
-- [ ] T008 [P] [US1] Restyle BrowsePage with LCARS panel aesthetic — alphabetical index bar uses lcars-violet/lcars-amber buttons, article list in lcars-surface panel, pagination styled with LCARS colors in client/src/pages/BrowsePage.tsx
-- [ ] T009 [P] [US1] Restyle ArticlePage with LCARS panel framing — content area in lcars-surface panel with left accent cap, category links styled with LCARS colors in client/src/pages/ArticlePage.tsx
-- [ ] T010 [P] [US1] Restyle SearchPage with LCARS styling — search input border with lcars-lilac, results in lcars-surface panels, snippets styled in client/src/pages/SearchPage.tsx
-- [ ] T011 [P] [US1] Restyle CategoryListPage with LCARS panel aesthetic — category list in lcars-surface panel, letter groupings with bar headers in client/src/pages/CategoryListPage.tsx
-- [ ] T012 [P] [US1] Restyle CategoryPage with LCARS panel aesthetic — page list in lcars-surface panel, category title bar in client/src/pages/CategoryPage.tsx
-- [ ] T013 [P] [US1] Restyle SettingsPage section cards with LCARS panel caps and palette colors (lcars-surface background, accent cap on left) in client/src/pages/SettingsPage.tsx
-- [ ] T014 [P] [US1] Restyle Pagination component with LCARS colors — active page bg-lcars-violet, inactive bg-lcars-surface, hover bg-lcars-peach in client/src/components/Pagination.tsx
-- [ ] T015 [P] [US1] Restyle ErrorMessage component with LCARS mars color and panel cap in client/src/components/ErrorMessage.tsx
-- [ ] T016 [P] [US1] Restyle LoadingSpinner component with LCARS amber spinner color in client/src/components/LoadingSpinner.tsx
-- [ ] T017 [US1] Update `.wiki-content` light-mode styles to use LCARS color palette — table headers bg-lcars-surface, links text-lcars-blue, blockquote border-lcars-lilac, code bg-lcars-surface, infobox styled with panel cap in client/src/index.css
+- [x] T008 [P] [US1] Restyle BrowsePage with LCARS panel aesthetic — alphabetical index bar uses lcars-violet/lcars-amber buttons, article list in lcars-surface panel, pagination styled with LCARS colors in client/src/pages/BrowsePage.tsx
+- [x] T009 [P] [US1] Restyle ArticlePage with LCARS panel framing — content area in lcars-surface panel with left accent cap, category links styled with LCARS colors in client/src/pages/ArticlePage.tsx
+- [x] T010 [P] [US1] Restyle SearchPage with LCARS styling — search input border with lcars-lilac, results in lcars-surface panels, snippets styled in client/src/pages/SearchPage.tsx
+- [x] T011 [P] [US1] Restyle CategoryListPage with LCARS panel aesthetic — category list in lcars-surface panel, letter groupings with bar headers in client/src/pages/CategoryListPage.tsx
+- [x] T012 [P] [US1] Restyle CategoryPage with LCARS panel aesthetic — page list in lcars-surface panel, category title bar in client/src/pages/CategoryPage.tsx
+- [x] T013 [P] [US1] Restyle SettingsPage section cards with LCARS panel caps and palette colors (lcars-surface background, accent cap on left) in client/src/pages/SettingsPage.tsx
+- [x] T014 [P] [US1] Restyle Pagination component with LCARS colors — active page bg-lcars-violet, inactive bg-lcars-surface, hover bg-lcars-peach in client/src/components/Pagination.tsx
+- [x] T015 [P] [US1] Restyle ErrorMessage component with LCARS mars color and panel cap in client/src/components/ErrorMessage.tsx
+- [x] T016 [P] [US1] Restyle LoadingSpinner component with LCARS amber spinner color in client/src/components/LoadingSpinner.tsx
+- [x] T017 [US1] Update `.wiki-content` light-mode styles to use LCARS color palette — table headers bg-lcars-surface, links text-lcars-blue, blockquote border-lcars-lilac, code bg-lcars-surface, infobox styled with panel cap in client/src/index.css
 
 **Checkpoint**: All pages render with the LCARS-inspired visual design in light mode. No default gray/blue colors remain in any component.
 
@@ -69,9 +69,9 @@
 
 ### Implementation for User Story 2
 
-- [ ] T018 [US2] Create ThemeToggle segmented button bar component (three buttons: Light/Dark/Auto, active highlighted with lcars-amber, inactive with lcars-surface) using useTheme() hook in client/src/components/ThemeToggle.tsx
-- [ ] T019 [US2] Create component tests for ThemeToggle — renders three buttons, highlights active selection, calls setPreference on click, reflects preference changes in client/tests/components/ThemeToggle.test.tsx
-- [ ] T020 [US2] Add "Appearance" section with ThemeToggle above the existing "Indexing" section in client/src/pages/SettingsPage.tsx
+- [x] T018 [US2] Create ThemeToggle segmented button bar component (three buttons: Light/Dark/Auto, active highlighted with lcars-amber, inactive with lcars-surface) using useTheme() hook in client/src/components/ThemeToggle.tsx
+- [x] T019 [US2] Create component tests for ThemeToggle — renders three buttons, highlights active selection, calls setPreference on click, reflects preference changes in client/tests/components/ThemeToggle.test.tsx
+- [x] T020 [US2] Add "Appearance" section with ThemeToggle above the existing "Indexing" section in client/src/pages/SettingsPage.tsx
 
 **Checkpoint**: Three-way theme toggle works. Persistence works. Light/Dark/Auto selections produce the correct visual result.
 
@@ -85,17 +85,17 @@
 
 ### Implementation for User Story 4
 
-- [ ] T021 [US4] Add `@variant dark` styles for all `.wiki-content` elements in client/src/index.css — tables (dark borders, dark header bg, dark stripe rows), code blocks (dark bg), blockquotes (dark border, light text), links (lcars-blue-d), hr, infobox (dark bg/border), template-block, image-placeholder
-- [ ] T022 [P] [US4] Add dark: variants to BrowsePage — dark backgrounds, dark text colors, dark hover states for alphabet buttons, article links, namespace selector in client/src/pages/BrowsePage.tsx
-- [ ] T023 [P] [US4] Add dark: variants to ArticlePage — dark panel background, dark text, dark category link colors, dark tab styles in client/src/pages/ArticlePage.tsx
-- [ ] T024 [P] [US4] Add dark: variants to SearchPage — dark input, dark result panels, dark snippet text in client/src/pages/SearchPage.tsx
-- [ ] T025 [P] [US4] Add dark: variants to CategoryListPage — dark panel, dark letter headers, dark category links in client/src/pages/CategoryListPage.tsx
-- [ ] T026 [P] [US4] Add dark: variants to CategoryPage — dark panel, dark page links in client/src/pages/CategoryPage.tsx
-- [ ] T027 [P] [US4] Add dark: variants to SettingsPage — dark section cards, dark text, dark status badges, dark progress bar, dark buttons in client/src/pages/SettingsPage.tsx
-- [ ] T028 [P] [US4] Add dark: variants to Header — dark end cap bg, dark bar, dark nav links, dark search input, dark hamburger menu panel in client/src/components/Header.tsx
-- [ ] T029 [P] [US4] Add dark: variants to Pagination — dark active/inactive/hover states in client/src/components/Pagination.tsx
-- [ ] T030 [P] [US4] Add dark: variants to ErrorMessage — dark mars background, dark text in client/src/components/ErrorMessage.tsx
-- [ ] T031 [P] [US4] Add dark: variants to LoadingSpinner — dark spinner color, dark text in client/src/components/LoadingSpinner.tsx
+- [x] T021 [US4] Add `@variant dark` styles for all `.wiki-content` elements in client/src/index.css — tables (dark borders, dark header bg, dark stripe rows), code blocks (dark bg), blockquotes (dark border, light text), links (lcars-blue-d), hr, infobox (dark bg/border), template-block, image-placeholder
+- [x] T022 [P] [US4] Add dark: variants to BrowsePage — dark backgrounds, dark text colors, dark hover states for alphabet buttons, article links, namespace selector in client/src/pages/BrowsePage.tsx
+- [x] T023 [P] [US4] Add dark: variants to ArticlePage — dark panel background, dark text, dark category link colors, dark tab styles in client/src/pages/ArticlePage.tsx
+- [x] T024 [P] [US4] Add dark: variants to SearchPage — dark input, dark result panels, dark snippet text in client/src/pages/SearchPage.tsx
+- [x] T025 [P] [US4] Add dark: variants to CategoryListPage — dark panel, dark letter headers, dark category links in client/src/pages/CategoryListPage.tsx
+- [x] T026 [P] [US4] Add dark: variants to CategoryPage — dark panel, dark page links in client/src/pages/CategoryPage.tsx
+- [x] T027 [P] [US4] Add dark: variants to SettingsPage — dark section cards, dark text, dark status badges, dark progress bar, dark buttons in client/src/pages/SettingsPage.tsx
+- [x] T028 [P] [US4] Add dark: variants to Header — dark end cap bg, dark bar, dark nav links, dark search input, dark hamburger menu panel in client/src/components/Header.tsx
+- [x] T029 [P] [US4] Add dark: variants to Pagination — dark active/inactive/hover states in client/src/components/Pagination.tsx
+- [x] T030 [P] [US4] Add dark: variants to ErrorMessage — dark mars background, dark text in client/src/components/ErrorMessage.tsx
+- [x] T031 [P] [US4] Add dark: variants to LoadingSpinner — dark spinner color, dark text in client/src/components/LoadingSpinner.tsx
 
 **Checkpoint**: All pages and components render correctly in both light and dark modes. Wiki content (tables, code, infoboxes) is readable in dark mode.
 
@@ -109,7 +109,7 @@
 
 ### Implementation for User Story 3
 
-- [ ] T032 [US3] Add `matchMedia('(prefers-color-scheme: dark)')` change event listener to ThemeProvider — subscribe when preference is "auto", unsubscribe when preference is "light" or "dark", update effectiveMode and DOM class on change event in client/src/hooks/useTheme.ts
+- [x] T032 [US3] Add `matchMedia('(prefers-color-scheme: dark)')` change event listener to ThemeProvider — subscribe when preference is "auto", unsubscribe when preference is "light" or "dark", update effectiveMode and DOM class on change event in client/src/hooks/useTheme.ts
 
 **Checkpoint**: Auto mode responds to real-time OS preference changes. Explicit Light/Dark selections are not affected by OS changes.
 
@@ -119,9 +119,9 @@
 
 **Purpose**: Accessibility, focus states, and final validation
 
-- [ ] T033 [P] Add visible focus indicators (`focus-visible:ring-2 ring-lcars-blue dark:ring-lcars-blue-d`) to all interactive elements: nav links, search input/button, alphabet buttons (BrowsePage), article/category links, pagination buttons, theme toggle buttons, hamburger button, and form controls across Header, ThemeToggle, Pagination, and all page components
-- [ ] T034 [P] Add `motion-reduce:transition-none` to hamburger menu animation in client/src/components/Header.tsx
-- [ ] T035 Run quickstart.md manual verification checklist — validate all 8 items pass (theme toggle, persistence, auto mode, FOUC, LCARS visual, mobile, wiki content, contrast). Additionally: (a) spot-check WCAG AA contrast ratios (4.5:1 normal text, 3:1 large text) in both modes per SC-003, (b) verify layout at 320px minimum viewport width per SC-007, (c) confirm no trademarked LCARS assets, fonts, or exact layouts are used per FR-002
+- [x] T033 [P] Add visible focus indicators (`focus-visible:ring-2 ring-lcars-blue dark:ring-lcars-blue-d`) to all interactive elements: nav links, search input/button, alphabet buttons (BrowsePage), article/category links, pagination buttons, theme toggle buttons, hamburger button, and form controls across Header, ThemeToggle, Pagination, and all page components
+- [x] T034 [P] Add `motion-reduce:transition-none` to hamburger menu animation in client/src/components/Header.tsx
+- [x] T035 Run quickstart.md manual verification checklist — validate all 8 items pass (theme toggle, persistence, auto mode, FOUC, LCARS visual, mobile, wiki content, contrast). Additionally: (a) spot-check WCAG AA contrast ratios (4.5:1 normal text, 3:1 large text) in both modes per SC-003, (b) verify layout at 320px minimum viewport width per SC-007, (c) confirm no trademarked LCARS assets, fonts, or exact layouts are used per FR-002
 
 ---
 

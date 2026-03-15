@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import SettingsPage from '../../src/pages/SettingsPage';
+import { ThemeProvider } from '../../src/hooks/useTheme';
 
 const mockApiGet = vi.fn();
 const mockApiPost = vi.fn();
@@ -12,10 +13,28 @@ vi.mock('../../src/api/client', () => ({
   apiPost: (...args: unknown[]) => mockApiPost(...args),
 }));
 
+// Mock matchMedia for ThemeProvider
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  configurable: true,
+  value: (query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  }),
+});
+
 function renderSettings() {
   return render(
     <MemoryRouter initialEntries={['/settings']}>
-      <SettingsPage />
+      <ThemeProvider>
+        <SettingsPage />
+      </ThemeProvider>
     </MemoryRouter>,
   );
 }

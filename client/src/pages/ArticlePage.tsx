@@ -53,9 +53,9 @@ export default function ArticlePage() {
           onRetry={is404 ? undefined : refetch}
         />
         {is404 && (
-          <div className="mt-4 text-center text-sm text-gray-500">
-            Try <Link to="/search" className="text-blue-600 hover:underline">searching</Link> or{' '}
-            <Link to="/browse" className="text-blue-600 hover:underline">browsing</Link> for articles.
+          <div className="mt-4 text-center text-sm text-lcars-gray dark:text-lcars-gray-d">
+            Try <Link to="/search" className="text-lcars-blue dark:text-lcars-blue-d hover:underline">searching</Link> or{' '}
+            <Link to="/browse" className="text-lcars-blue dark:text-lcars-blue-d hover:underline">browsing</Link> for articles.
           </div>
         )}
       </div>
@@ -70,21 +70,27 @@ export default function ArticlePage() {
   return (
     <article>
       {redirectedFrom && (
-        <div className="mb-3 rounded bg-blue-50 px-3 py-2 text-sm text-blue-700">
+        <div className="mb-3 rounded bg-lcars-ice/30 dark:bg-lcars-ice-d/20 px-3 py-2 text-sm text-lcars-blue dark:text-lcars-blue-d">
           Redirected from <em>{redirectedFrom.replace(/_/g, ' ')}</em>
         </div>
       )}
-      <h1 className="mb-4 text-3xl font-bold">{displayTitle}</h1>
-      <WikiContent html={parsed.html} />
+      <h1 className="mb-4 text-3xl font-bold text-lcars-black dark:text-lcars-text-d">{displayTitle}</h1>
+      <div className="flex gap-3">
+        {/* Left accent cap */}
+        <div className="hidden md:block w-2 shrink-0 rounded-full bg-lcars-violet dark:bg-lcars-violet-d" />
+        <div className="flex-1 rounded-lg bg-lcars-surface dark:bg-lcars-surface-d p-4">
+          <WikiContent html={parsed.html} />
+        </div>
+      </div>
       {data.categories.length > 0 && (
-        <div className="mt-6 border-t pt-4">
-          <h2 className="mb-2 text-sm font-semibold text-gray-500">Categories</h2>
+        <div className="mt-6 border-t border-lcars-lilac/30 dark:border-lcars-lilac-d/30 pt-4">
+          <h2 className="mb-2 text-sm font-semibold text-lcars-gray dark:text-lcars-gray-d">Categories</h2>
           <div className="flex flex-wrap gap-2">
             {data.categories.map((cat) => (
               <Link
                 key={cat}
                 to={`/categories/${encodeURIComponent(cat)}`}
-                className="rounded bg-gray-100 px-2 py-1 text-sm text-gray-700 hover:bg-gray-200"
+                className="rounded bg-lcars-surface dark:bg-lcars-surface-d px-2 py-1 text-sm text-lcars-blue dark:text-lcars-blue-d hover:bg-lcars-peach dark:hover:bg-lcars-peach-d hover:text-lcars-black transition-colors"
               >
                 {cat}
               </Link>

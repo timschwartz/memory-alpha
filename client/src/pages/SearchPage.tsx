@@ -28,7 +28,7 @@ export default function SearchPage() {
   }
 
   if (!query.trim()) {
-    return <p className="text-center text-gray-500">Enter a search query to find articles.</p>;
+    return <p className="text-center text-lcars-gray dark:text-lcars-gray-d">Enter a search query to find articles.</p>;
   }
 
   if (loading) return <LoadingSpinner text="Searching..." />;
@@ -39,9 +39,9 @@ export default function SearchPage() {
   if (results.length === 0) {
     return (
       <div className="text-center">
-        <p className="text-gray-500">No results found for &quot;{query}&quot;.</p>
-        <p className="mt-2 text-sm text-gray-400">
-          Try different keywords or <Link to="/browse" className="text-blue-600 hover:underline">browse articles</Link>.
+        <p className="text-lcars-gray dark:text-lcars-gray-d">No results found for &quot;{query}&quot;.</p>
+        <p className="mt-2 text-sm text-lcars-gray dark:text-lcars-gray-d">
+          Try different keywords or <Link to="/browse" className="text-lcars-blue dark:text-lcars-blue-d hover:underline">browse articles</Link>.
         </p>
       </div>
     );
@@ -49,23 +49,23 @@ export default function SearchPage() {
 
   return (
     <div>
-      <h1 className="mb-4 text-xl font-semibold">
+      <h1 className="mb-4 text-xl font-semibold text-lcars-black dark:text-lcars-text-d">
         Search results for &quot;{query}&quot;
       </h1>
       <ul className="space-y-4">
         {results.map((result) => (
-          <li key={result.page_id} className="border-b pb-3">
+          <li key={result.page_id} className="rounded-lg bg-lcars-surface dark:bg-lcars-surface-d p-3">
             <Link
               to={`/wiki/${encodeURIComponent(result.title)}`}
-              className="text-lg font-medium text-blue-600 hover:underline"
+              className="text-lg font-medium text-lcars-blue dark:text-lcars-blue-d hover:underline"
             >
               {result.title}
             </Link>
             {result.namespace_name && (
-              <span className="ml-2 text-xs text-gray-400">({result.namespace_name})</span>
+              <span className="ml-2 text-xs text-lcars-gray dark:text-lcars-gray-d">({result.namespace_name})</span>
             )}
             <p
-              className="mt-1 text-sm text-gray-600"
+              className="mt-1 text-sm text-lcars-gray dark:text-lcars-gray-d"
               dangerouslySetInnerHTML={{ __html: sanitizeSnippet(result.snippet) }}
             />
           </li>

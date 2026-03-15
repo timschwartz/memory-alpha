@@ -67,7 +67,7 @@ describe('SearchPage', () => {
     renderSearchPage('?q=test');
     await screen.findByText('Test');
     // The mark tag should be present but bold/script should be stripped
-    const snippetEl = document.querySelector('p[class*="text-gray-600"]');
+    const snippetEl = document.querySelector('p[class*="text-lcars-gray"]');
     expect(snippetEl?.innerHTML).toContain('<mark>ok</mark>');
     expect(snippetEl?.innerHTML).not.toContain('<script>');
     expect(snippetEl?.innerHTML).not.toContain('<b>');

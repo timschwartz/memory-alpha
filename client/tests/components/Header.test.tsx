@@ -33,15 +33,18 @@ describe('Header', () => {
 
   it('renders a search input', () => {
     renderHeader();
-    expect(screen.getByPlaceholderText(/search/i)).toBeInTheDocument();
+    const inputs = screen.getAllByPlaceholderText(/search/i);
+    expect(inputs.length).toBeGreaterThanOrEqual(1);
   });
 
   it('navigates to /search?q=query on form submit', async () => {
     const user = userEvent.setup();
     renderHeader();
-    const input = screen.getByPlaceholderText(/search/i);
+    const inputs = screen.getAllByPlaceholderText(/search/i);
+    const input = inputs[0];
     await user.type(input, 'warp drive');
-    await user.click(screen.getByRole('button', { name: /search/i }));
+    const buttons = screen.getAllByRole('button', { name: /search/i });
+    await user.click(buttons[0]);
     // MemoryRouter doesn't update window.location, but we can verify the input value was used
     expect(input).toHaveValue('warp drive');
   });

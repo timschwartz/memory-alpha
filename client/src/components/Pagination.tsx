@@ -16,17 +16,17 @@ export default function Pagination({ meta, onPageChange }: PaginationProps) {
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage <= 1}
-        className="rounded border px-3 py-1 text-sm disabled:cursor-not-allowed disabled:opacity-40"
+        className="rounded bg-lcars-surface dark:bg-lcars-surface-d px-3 py-1 text-sm text-lcars-violet dark:text-lcars-violet-d hover:bg-lcars-peach dark:hover:bg-lcars-peach-d disabled:cursor-not-allowed disabled:opacity-40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lcars-blue dark:focus-visible:ring-lcars-blue-d"
       >
         ← Previous
       </button>
-      <span className="text-sm text-gray-600">
+      <span className="text-sm text-lcars-gray dark:text-lcars-gray-d">
         Page {currentPage} of {totalPages}
       </span>
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={!meta.hasMore}
-        className="rounded border px-3 py-1 text-sm disabled:cursor-not-allowed disabled:opacity-40"
+        className="rounded bg-lcars-surface dark:bg-lcars-surface-d px-3 py-1 text-sm text-lcars-violet dark:text-lcars-violet-d hover:bg-lcars-peach dark:hover:bg-lcars-peach-d disabled:cursor-not-allowed disabled:opacity-40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lcars-blue dark:focus-visible:ring-lcars-blue-d"
       >
         Next →
       </button>

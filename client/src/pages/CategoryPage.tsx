@@ -49,20 +49,22 @@ export default function CategoryPage() {
 
   return (
     <div>
-      <h1 className="mb-4 text-xl font-semibold">Category: {displayName}</h1>
-      <ul className="space-y-1">
-        {(data?.pages ?? []).map((p) => (
-          <li key={p.page_id}>
-            <Link
-              to={`/wiki/${encodeURIComponent(p.title)}`}
-              className="text-blue-600 hover:underline"
-            >
-              {p.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
-      {data?.meta && <Pagination meta={data.meta} onPageChange={handlePageChange} />}
+      <h1 className="mb-4 text-xl font-semibold text-lcars-black dark:text-lcars-text-d">Category: {displayName}</h1>
+      <div className="rounded-lg bg-lcars-surface dark:bg-lcars-surface-d p-4">
+        <ul className="space-y-1">
+          {(data?.pages ?? []).map((p) => (
+            <li key={p.page_id}>
+              <Link
+                to={`/wiki/${encodeURIComponent(p.title)}`}
+                className="text-lcars-blue dark:text-lcars-blue-d hover:underline"
+              >
+                {p.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        {data?.meta && <Pagination meta={data.meta} onPageChange={handlePageChange} />}
+      </div>
     </div>
   );
 }

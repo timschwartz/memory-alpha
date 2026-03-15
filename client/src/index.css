@@ -1,12 +1,42 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-lcars-amber: oklch(0.75 0.155 75);
+  --color-lcars-sunset: oklch(0.68 0.185 50);
+  --color-lcars-peach: oklch(0.82 0.09 60);
+  --color-lcars-mars: oklch(0.62 0.22 35);
+  --color-lcars-violet: oklch(0.52 0.2 300);
+  --color-lcars-lilac: oklch(0.72 0.14 300);
+  --color-lcars-blue: oklch(0.58 0.16 260);
+  --color-lcars-ice: oklch(0.80 0.08 240);
+  --color-lcars-gray: oklch(0.45 0.03 265);
+  --color-lcars-black: oklch(0.18 0.02 265);
+  --color-lcars-bg: oklch(0.98 0.005 265);
+  --color-lcars-surface: oklch(0.95 0.008 265);
+
+  --color-lcars-amber-d: oklch(0.78 0.155 75);
+  --color-lcars-sunset-d: oklch(0.72 0.175 50);
+  --color-lcars-peach-d: oklch(0.78 0.08 60);
+  --color-lcars-mars-d: oklch(0.66 0.20 35);
+  --color-lcars-violet-d: oklch(0.68 0.18 300);
+  --color-lcars-lilac-d: oklch(0.76 0.13 300);
+  --color-lcars-blue-d: oklch(0.70 0.14 260);
+  --color-lcars-ice-d: oklch(0.75 0.07 240);
+  --color-lcars-gray-d: oklch(0.65 0.025 265);
+  --color-lcars-text-d: oklch(0.93 0.01 265);
+  --color-lcars-bg-d: oklch(0.13 0.02 265);
+  --color-lcars-surface-d: oklch(0.18 0.025 265);
+}
+
 /* Wiki content styling */
 @layer components {
   .wiki-content h1 {
-    @apply text-3xl font-bold mt-6 mb-3 pb-1 border-b border-gray-300;
+    @apply text-3xl font-bold mt-6 mb-3 pb-1 border-b border-lcars-lilac/30;
   }
   .wiki-content h2 {
-    @apply text-2xl font-bold mt-5 mb-2 pb-1 border-b border-gray-200;
+    @apply text-2xl font-bold mt-5 mb-2 pb-1 border-b border-lcars-lilac/20;
   }
   .wiki-content h3 {
     @apply text-xl font-semibold mt-4 mb-2;
@@ -33,25 +63,25 @@
     @apply my-0.5;
   }
   .wiki-content table {
-    @apply border-collapse border border-gray-300 my-4 w-full;
+    @apply border-collapse border border-lcars-lilac/30 my-4 w-full;
   }
   .wiki-content th {
-    @apply border border-gray-300 bg-gray-100 px-3 py-1.5 text-left font-semibold;
+    @apply border border-lcars-lilac/30 bg-lcars-surface px-3 py-1.5 text-left font-semibold;
   }
   .wiki-content td {
-    @apply border border-gray-300 px-3 py-1.5;
+    @apply border border-lcars-lilac/30 px-3 py-1.5;
   }
   .wiki-content tr:nth-child(even) {
-    @apply bg-gray-50;
+    @apply bg-lcars-surface/50;
   }
   .wiki-content blockquote {
-    @apply border-l-4 border-gray-300 pl-4 my-3 italic text-gray-700;
+    @apply border-l-4 border-lcars-lilac pl-4 my-3 italic text-lcars-gray;
   }
   .wiki-content pre {
-    @apply bg-gray-100 rounded p-3 my-3 overflow-x-auto text-sm;
+    @apply bg-lcars-surface rounded p-3 my-3 overflow-x-auto text-sm;
   }
   .wiki-content code {
-    @apply bg-gray-100 rounded px-1 py-0.5 text-sm;
+    @apply bg-lcars-surface rounded px-1 py-0.5 text-sm;
   }
   .wiki-content pre code {
     @apply bg-transparent p-0;
@@ -66,16 +96,16 @@
     @apply ml-6 mb-1;
   }
   .wiki-content a {
-    @apply text-blue-600 hover:underline;
+    @apply text-lcars-blue hover:underline;
   }
   .wiki-content a[href^="http"] {
-    @apply after:content-['↗'] after:text-xs after:ml-0.5 after:text-gray-400;
+    @apply after:content-['↗'] after:text-xs after:ml-0.5 after:text-lcars-gray;
   }
   .wiki-content hr {
-    @apply my-4 border-gray-300;
+    @apply my-4 border-lcars-lilac/30;
   }
   .wiki-content .infobox {
-    @apply border border-gray-300 bg-gray-50 rounded p-3 my-3 float-right ml-4 max-w-xs text-sm;
+    @apply border border-lcars-lilac/30 bg-lcars-surface rounded p-3 my-3 float-right ml-4 max-w-xs text-sm;
   }
   .wiki-content .infobox .infobox-title {
     @apply font-bold text-center mb-2 text-base;
@@ -88,9 +118,86 @@
     @apply border-0 px-1 py-0.5;
   }
   .wiki-content .template-block {
-    @apply border border-dashed border-gray-400 bg-gray-50 rounded p-2 my-2 text-sm;
+    @apply border border-dashed border-lcars-lilac/40 bg-lcars-surface rounded p-2 my-2 text-sm;
   }
   .wiki-content .image-placeholder {
-    @apply border border-gray-300 bg-gray-100 rounded p-2 my-2 text-center text-sm text-gray-500 italic;
+    @apply border border-lcars-lilac/30 bg-lcars-surface rounded p-2 my-2 text-center text-sm text-lcars-gray italic;
+  }
+
+  /* Dark mode wiki-content variants */
+  .wiki-content h1 {
+    @variant dark {
+      @apply border-b-lcars-lilac-d/30;
+    }
+  }
+  .wiki-content h2 {
+    @variant dark {
+      @apply border-b-lcars-lilac-d/20;
+    }
+  }
+  .wiki-content table {
+    @variant dark {
+      @apply border-lcars-lilac-d/30;
+    }
+  }
+  .wiki-content th {
+    @variant dark {
+      @apply border-lcars-lilac-d/30 bg-lcars-surface-d;
+    }
+  }
+  .wiki-content td {
+    @variant dark {
+      @apply border-lcars-lilac-d/30;
+    }
+  }
+  .wiki-content tr:nth-child(even) {
+    @variant dark {
+      @apply bg-lcars-surface-d/50;
+    }
+  }
+  .wiki-content blockquote {
+    @variant dark {
+      @apply border-l-lcars-lilac-d text-lcars-gray-d;
+    }
+  }
+  .wiki-content pre {
+    @variant dark {
+      @apply bg-lcars-surface-d;
+    }
+  }
+  .wiki-content code {
+    @variant dark {
+      @apply bg-lcars-surface-d;
+    }
+  }
+  .wiki-content a {
+    @variant dark {
+      @apply text-lcars-blue-d;
+    }
+  }
+  .wiki-content a[href^="http"] {
+    @variant dark {
+      @apply after:text-lcars-gray-d;
+    }
+  }
+  .wiki-content hr {
+    @variant dark {
+      @apply border-lcars-lilac-d/30;
+    }
+  }
+  .wiki-content .infobox {
+    @variant dark {
+      @apply border-lcars-lilac-d/30 bg-lcars-surface-d;
+    }
+  }
+  .wiki-content .template-block {
+    @variant dark {
+      @apply border-lcars-lilac-d/40 bg-lcars-surface-d;
+    }
+  }
+  .wiki-content .image-placeholder {
+    @variant dark {
+      @apply border-lcars-lilac-d/30 bg-lcars-surface-d text-lcars-gray-d;
+    }
   }
 }

@@ -44,15 +44,15 @@ export default function BrowsePage() {
 
   return (
     <div>
-      <h1 className="mb-4 text-xl font-semibold">Browse Articles</h1>
+      <h1 className="mb-4 text-xl font-semibold text-lcars-black dark:text-lcars-text-d">Browse Articles</h1>
 
       <div className="mb-4 flex items-center gap-4">
-        <label className="text-sm text-gray-600">
+        <label className="text-sm text-lcars-gray dark:text-lcars-gray-d">
           Namespace:
           <select
             value={namespace}
             onChange={(e) => setParam({ namespace: e.target.value, page: '1' })}
-            className="ml-2 rounded border px-2 py-1 text-sm"
+            className="ml-2 rounded border border-lcars-lilac dark:border-lcars-lilac-d bg-white dark:bg-lcars-surface-d px-2 py-1 text-sm text-lcars-black dark:text-lcars-text-d"
           >
             <option value="0">Main</option>
             <option value="1">Talk</option>
@@ -67,7 +67,7 @@ export default function BrowsePage() {
       <div className="mb-4 flex flex-wrap gap-1">
         <button
           onClick={() => setParam({ prefix: '', page: '1' })}
-          className={`rounded px-2 py-1 text-sm ${!prefix ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+          className={`rounded px-2 py-1 text-sm font-medium transition-colors ${!prefix ? 'bg-lcars-violet dark:bg-lcars-violet-d text-white' : 'bg-lcars-surface dark:bg-lcars-surface-d text-lcars-violet dark:text-lcars-violet-d hover:bg-lcars-peach dark:hover:bg-lcars-peach-d'}`}
         >
           All
         </button>
@@ -75,7 +75,7 @@ export default function BrowsePage() {
           <button
             key={letter}
             onClick={() => setParam({ prefix: letter, page: '1' })}
-            className={`rounded px-2 py-1 text-sm ${prefix === letter ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+            className={`rounded px-2 py-1 text-sm font-medium transition-colors ${prefix === letter ? 'bg-lcars-amber dark:bg-lcars-amber-d text-lcars-black' : 'bg-lcars-surface dark:bg-lcars-surface-d text-lcars-violet dark:text-lcars-violet-d hover:bg-lcars-peach dark:hover:bg-lcars-peach-d'}`}
           >
             {letter}
           </button>
@@ -85,24 +85,24 @@ export default function BrowsePage() {
       {loading ? (
         <LoadingSpinner text="Loading articles..." />
       ) : (
-        <>
+        <div className="rounded-lg bg-lcars-surface dark:bg-lcars-surface-d p-4">
           <ul className="space-y-1">
             {(data?.pages ?? []).map((p) => (
               <li key={p.page_id}>
                 <Link
                   to={`/wiki/${encodeURIComponent(p.title)}`}
-                  className="text-blue-600 hover:underline"
+                  className="text-lcars-blue dark:text-lcars-blue-d hover:underline"
                 >
                   {p.title}
                 </Link>
                 {p.namespace_name && (
-                  <span className="ml-2 text-xs text-gray-400">({p.namespace_name})</span>
+                  <span className="ml-2 text-xs text-lcars-gray dark:text-lcars-gray-d">({p.namespace_name})</span>
                 )}
               </li>
             ))}
           </ul>
           {data?.meta && <Pagination meta={data.meta} onPageChange={handlePageChange} />}
-        </>
+        </div>
       )}
     </div>
   );
