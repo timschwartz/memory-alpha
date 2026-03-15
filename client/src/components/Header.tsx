@@ -41,6 +41,9 @@ export default function Header() {
           <Link to="/categories" className="text-sm text-gray-600 hover:text-gray-900">
             Categories
           </Link>
+          <Link to="/settings" className="text-sm text-gray-600 hover:text-gray-900">
+            Settings
+          </Link>
         </nav>
       </div>
     </header>

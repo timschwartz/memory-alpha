@@ -110,3 +110,22 @@ export interface HealthStatus {
   totalCategories: number;
   searchIndexReady: boolean;
 }
+
+export interface IndexingStatus {
+  state: 'idle' | 'in-progress' | 'complete';
+  indexedPages: number;
+  totalPages: number;
+  percentage: number;
+  startedAt: string | null;
+  completedAt: string | null;
+  durationMs: number | null;
+}
+
+export interface IndexingStartRequest {
+  mode: 'continue' | 'rebuild';
+}
+
+export interface IndexingStartResponse {
+  status: 'started';
+  totalPages: number;
+}

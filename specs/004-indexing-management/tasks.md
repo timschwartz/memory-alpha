@@ -13,8 +13,8 @@
 
 **Purpose**: Add shared types and client utilities needed by multiple user stories
 
-- [ ] T001 Add IndexingStatus, IndexingStartRequest, and IndexingStartResponse interfaces to shared/src/types/wiki.ts and export from shared/src/index.ts
-- [ ] T002 [P] Add apiPost helper function to client/src/api/client.ts following the existing apiGet pattern
+- [x] T001 Add IndexingStatus, IndexingStartRequest, and IndexingStartResponse interfaces to shared/src/types/wiki.ts and export from shared/src/index.ts
+- [x] T002 [P] Add apiPost helper function to client/src/api/client.ts following the existing apiGet pattern
 
 ---
 
@@ -24,11 +24,11 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T003 Add getIndexedCount() and getTotalIndexableCount() helper methods to FTS5Indexer in server/src/lib/fts5-indexer.ts
-- [ ] T004 Add buildIncremental() method with 500-page batch commits, progress callback, and NOT IN (SELECT rowid FROM search_index) resume detection to FTS5Indexer in server/src/lib/fts5-indexer.ts. Must also handle newly imported pages (FR-013) and surface clear errors when the database is inaccessible (edge case)
-- [ ] T005 Add clearIndex() method that deletes all rows from search_index for full rebuild support in server/src/lib/fts5-indexer.ts
+- [x] T003 Add getIndexedCount() and getTotalIndexableCount() helper methods to FTS5Indexer in server/src/lib/fts5-indexer.ts
+- [x] T004 Add buildIncremental() method with 500-page batch commits, progress callback, and NOT IN (SELECT rowid FROM search_index) resume detection to FTS5Indexer in server/src/lib/fts5-indexer.ts. Must also handle newly imported pages (FR-013) and surface clear errors when the database is inaccessible (edge case)
+- [x] T005 Add clearIndex() method that deletes all rows from search_index for full rebuild support in server/src/lib/fts5-indexer.ts
 
-- [ ] T005a [P] Add unit tests for getIndexedCount(), getTotalIndexableCount(), buildIncremental(), and clearIndex() in server/tests/unit/fts5-indexer.test.ts
+- [x] T005a [P] Add unit tests for getIndexedCount(), getTotalIndexableCount(), buildIncremental(), and clearIndex() in server/tests/unit/fts5-indexer.test.ts
 
 **Checkpoint**: FTS5Indexer now supports incremental builds, batch commits, progress callbacks, and full rebuild — all user stories can proceed
 
@@ -40,8 +40,8 @@
 
 **Independent Test**: Run `npx tsx src/cli/index-search.ts -d ../memory-alpha.db` against a populated database and observe progress updates overwriting the terminal line
 
-- [ ] T006 [US1] Update CLI action to call buildIncremental() with a progress callback that writes in-place progress to stderr using \r in server/src/cli/index-search.ts
-- [ ] T007 [US1] Add --rebuild flag to CLI that calls clearIndex() before buildIncremental() in server/src/cli/index-search.ts
+- [x] T006 [US1] Update CLI action to call buildIncremental() with a progress callback that writes in-place progress to stderr using \r in server/src/cli/index-search.ts
+- [x] T007 [US1] Add --rebuild flag to CLI that calls clearIndex() before buildIncremental() in server/src/cli/index-search.ts
 
 **Checkpoint**: CLI displays live progress during indexing and supports --rebuild for full re-index
 
@@ -53,8 +53,8 @@
 
 **Independent Test**: Start indexing, interrupt after partial progress, restart and verify only remaining pages are processed
 
-- [ ] T008 [US2] Add up-to-date detection that compares indexedCount to totalCount and exits early with a message when index is complete in server/src/cli/index-search.ts
-- [ ] T009 [US2] Add SIGINT handler that sets a stop flag to allow the current batch to complete before exiting gracefully in server/src/cli/index-search.ts
+- [x] T008 [US2] Add up-to-date detection that compares indexedCount to totalCount and exits early with a message when index is complete in server/src/cli/index-search.ts
+- [x] T009 [US2] Add SIGINT handler that sets a stop flag to allow the current batch to complete before exiting gracefully in server/src/cli/index-search.ts
 
 **Checkpoint**: CLI resumes from last checkpoint, detects up-to-date index, and handles Ctrl+C gracefully
 
@@ -66,9 +66,9 @@
 
 **Independent Test**: `curl -X POST http://localhost:3000/api/indexing/start -H "Content-Type: application/json" -d '{"mode":"continue"}'` returns 202; a second request returns 409
 
-- [ ] T010 [US3] Create indexing route file with in-memory state tracking and POST /api/indexing/start handler that validates mode and rejects concurrent requests in server/src/api/routes/indexing.ts
-- [ ] T011 [US3] Implement async background indexing with setImmediate yielding between batches to keep the event loop responsive in server/src/api/routes/indexing.ts
-- [ ] T012 [US3] Register indexing router at /api/indexing in createApp() and pass FTS5Indexer and PageModel in server/src/api/app.ts
+- [x] T010 [US3] Create indexing route file with in-memory state tracking and POST /api/indexing/start handler that validates mode and rejects concurrent requests in server/src/api/routes/indexing.ts
+- [x] T011 [US3] Implement async background indexing with setImmediate yielding between batches to keep the event loop responsive in server/src/api/routes/indexing.ts
+- [x] T012 [US3] Register indexing router at /api/indexing in createApp() and pass FTS5Indexer and PageModel in server/src/api/app.ts
 
 **Checkpoint**: Server can trigger indexing in the background and reject concurrent requests
 
@@ -80,9 +80,9 @@
 
 **Independent Test**: `curl http://localhost:3000/api/indexing/status` returns IndexingStatus JSON before, during, and after indexing
 
-- [ ] T013 [US4] Add GET /api/indexing/status endpoint returning IndexingStatus from in-memory state and live DB counts in server/src/api/routes/indexing.ts
+- [x] T013 [US4] Add GET /api/indexing/status endpoint returning IndexingStatus from in-memory state and live DB counts in server/src/api/routes/indexing.ts
 
-- [ ] T013a [P] Add integration tests for POST /api/indexing/start and GET /api/indexing/status in server/tests/integration/indexing-route.test.ts
+- [x] T013a [P] Add integration tests for POST /api/indexing/start and GET /api/indexing/status in server/tests/integration/indexing-route.test.ts
 
 **Checkpoint**: Status endpoint returns idle/in-progress/complete state with accurate progress metrics
 
@@ -94,12 +94,12 @@
 
 **Independent Test**: Navigate to /settings, click Build Index or Rebuild Index, and observe the progress bar updating every 2 seconds until completion
 
-- [ ] T014 [P] [US5] Create SettingsPage component with indexing status display, progress bar, Continue Indexing button, and Rebuild Index button in client/src/pages/SettingsPage.tsx
-- [ ] T015 [US5] Add polling logic to SettingsPage via useEffect/setInterval that fetches GET /api/indexing/status every 2 seconds while indexing is in-progress in client/src/pages/SettingsPage.tsx
-- [ ] T016 [P] [US5] Add Settings navigation link to the nav section of the Header component in client/src/components/Header.tsx
-- [ ] T017 [US5] Add /settings route with lazy-loaded SettingsPage to the Routes in client/src/App.tsx
+- [x] T014 [P] [US5] Create SettingsPage component with indexing status display, progress bar, Continue Indexing button, and Rebuild Index button in client/src/pages/SettingsPage.tsx
+- [x] T015 [US5] Add polling logic to SettingsPage via useEffect/setInterval that fetches GET /api/indexing/status every 2 seconds while indexing is in-progress in client/src/pages/SettingsPage.tsx
+- [x] T016 [P] [US5] Add Settings navigation link to the nav section of the Header component in client/src/components/Header.tsx
+- [x] T017 [US5] Add /settings route with lazy-loaded SettingsPage to the Routes in client/src/App.tsx
 
-- [ ] T017a [P] Add component tests for SettingsPage (idle, in-progress, complete states; button interactions; polling) in client/tests/components/SettingsPage.test.tsx
+- [x] T017a [P] Add component tests for SettingsPage (idle, in-progress, complete states; button interactions; polling) in client/tests/components/SettingsPage.test.tsx
 
 **Checkpoint**: Settings page is accessible from navigation, displays live indexing progress, and provides working Continue/Rebuild controls
 
@@ -109,9 +109,9 @@
 
 **Purpose**: End-to-end validation across all user stories
 
-- [ ] T018 [P] Run quickstart.md validation end-to-end for CLI, API endpoints, and Settings page
-- [ ] T019 Verify all acceptance scenarios from spec.md pass across all five user stories
-- [ ] T019a Validate SC-002: run indexing to ~90%, interrupt, resume, and confirm the resumed run completes in under 10% of a full re-index duration
+- [x] T018 [P] Run quickstart.md validation end-to-end for CLI, API endpoints, and Settings page
+- [x] T019 Verify all acceptance scenarios from spec.md pass across all five user stories
+- [x] T019a Validate SC-002: run indexing to ~90%, interrupt, resume, and confirm the resumed run completes in under 10% of a full re-index duration
 
 ---
 

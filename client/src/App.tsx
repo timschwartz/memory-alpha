@@ -8,6 +8,7 @@ const BrowsePage = lazy(() => import('./pages/BrowsePage'));
 const SearchPage = lazy(() => import('./pages/SearchPage'));
 const CategoryListPage = lazy(() => import('./pages/CategoryListPage'));
 const CategoryPage = lazy(() => import('./pages/CategoryPage'));
+const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 
 function Layout() {
   return (
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/search" element={<SearchPage />} />
           <Route path="/categories" element={<CategoryListPage />} />
           <Route path="/categories/:name" element={<CategoryPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

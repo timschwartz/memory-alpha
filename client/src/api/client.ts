@@ -43,3 +43,30 @@ export async function apiGet<T>(
 
   return (await response.json()) as ApiResponse<T>;
 }
+
+export async function apiPost<T>(
+  path: string,
+  body: unknown,
+): Promise<ApiResponse<T>> {
+  const url = `${BASE_URL}${path}`;
+
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+  } catch {
+    throw new ApiClientError('Network error: unable to reach server', 0, 'NETWORK_ERROR');
+  }
+
+  if (!response.ok) {
+    const respBody = await response.json().catch(() => null) as ApiResponse<T> | null;
+    const code = respBody?.error?.code ?? 'HTTP_ERROR';
+    const message = respBody?.error?.message ?? `HTTP ${response.status}`;
+    throw new ApiClientError(message, response.status, code);
+  }
+
+  return (await response.json()) as ApiResponse<T>;
+}

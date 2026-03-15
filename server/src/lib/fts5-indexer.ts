@@ -1,9 +1,28 @@
 import type Database from 'better-sqlite3';
 
+export interface BuildProgress {
+  indexedPages: number;
+  totalPages: number;
+  percentage: number;
+  elapsedMs: number;
+}
+
 export class FTS5Indexer {
   private rebuilding = false;
 
   constructor(private db: Database.Database) {}
+
+  getIndexedCount(): number {
+    const row = this.db
+      .prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='search_index'")
+      .get();
+    if (!row) return 0;
+    return (this.db.prepare('SELECT count(*) AS cnt FROM search_index').get() as { cnt: number }).cnt;
+  }
+
+  getTotalIndexableCount(): number {
+    return (this.db.prepare('SELECT count(*) AS cnt FROM pages').get() as { cnt: number }).cnt;
+  }
 
   isIndexReady(): boolean {
     const row = this.db
@@ -39,6 +58,116 @@ export class FTS5Indexer {
     const durationMs = Date.now() - start;
 
     return { indexedPages, durationMs };
+  }
+
+  buildIncremental(
+    onProgress?: (progress: BuildProgress) => void,
+    shouldStop?: () => boolean,
+    batchSize = 500,
+  ): { indexedPages: number; durationMs: number } {
+    const start = Date.now();
+    let totalIndexed = this.getIndexedCount();
+    const totalPages = this.getTotalIndexableCount();
+
+    const selectUnindexed = this.db.prepare(`
+      SELECT p.page_id, p.title, r.text_content
+      FROM pages p
+      JOIN revisions r ON r.page_id = p.page_id
+      WHERE r.revision_id = (
+        SELECT MAX(r2.revision_id) FROM revisions r2 WHERE r2.page_id = p.page_id
+      )
+      AND p.page_id NOT IN (SELECT rowid FROM search_index)
+      LIMIT ?
+    `);
+
+    const insertStmt = this.db.prepare(
+      'INSERT INTO search_index(rowid, title, text_content) VALUES (?, ?, ?)',
+    );
+
+    let batchIndexed = 0;
+
+    while (true) {
+      if (shouldStop?.()) break;
+
+      const rows = selectUnindexed.all(batchSize) as { page_id: number; title: string; text_content: string | null }[];
+      if (rows.length === 0) break;
+
+      const insertBatch = this.db.transaction(() => {
+        for (const row of rows) {
+          insertStmt.run(row.page_id, row.title, row.text_content ?? '');
+        }
+      });
+
+      insertBatch();
+      totalIndexed += rows.length;
+      batchIndexed += rows.length;
+
+      onProgress?.({
+        indexedPages: totalIndexed,
+        totalPages,
+        percentage: totalPages > 0 ? Math.round((totalIndexed / totalPages) * 1000) / 10 : 0,
+        elapsedMs: Date.now() - start,
+      });
+    }
+
+    return { indexedPages: batchIndexed, durationMs: Date.now() - start };
+  }
+
+  async buildIncrementalAsync(
+    onProgress?: (progress: BuildProgress) => void,
+    batchSize = 500,
+  ): Promise<{ indexedPages: number; durationMs: number }> {
+    const start = Date.now();
+    let totalIndexed = this.getIndexedCount();
+    const totalPages = this.getTotalIndexableCount();
+
+    const selectUnindexed = this.db.prepare(`
+      SELECT p.page_id, p.title, r.text_content
+      FROM pages p
+      JOIN revisions r ON r.page_id = p.page_id
+      WHERE r.revision_id = (
+        SELECT MAX(r2.revision_id) FROM revisions r2 WHERE r2.page_id = p.page_id
+      )
+      AND p.page_id NOT IN (SELECT rowid FROM search_index)
+      LIMIT ?
+    `);
+
+    const insertStmt = this.db.prepare(
+      'INSERT INTO search_index(rowid, title, text_content) VALUES (?, ?, ?)',
+    );
+
+    let batchIndexed = 0;
+
+    while (true) {
+      // Yield to the event loop between batches
+      await new Promise<void>((resolve) => setImmediate(resolve));
+
+      const rows = selectUnindexed.all(batchSize) as { page_id: number; title: string; text_content: string | null }[];
+      if (rows.length === 0) break;
+
+      const insertBatch = this.db.transaction(() => {
+        for (const row of rows) {
+          insertStmt.run(row.page_id, row.title, row.text_content ?? '');
+        }
+      });
+
+      insertBatch();
+      totalIndexed += rows.length;
+      batchIndexed += rows.length;
+
+      onProgress?.({
+        indexedPages: totalIndexed,
+        totalPages,
+        percentage: totalPages > 0 ? Math.round((totalIndexed / totalPages) * 1000) / 10 : 0,
+        elapsedMs: Date.now() - start,
+      });
+    }
+
+    return { indexedPages: batchIndexed, durationMs: Date.now() - start };
+  }
+
+  clearIndex(): void {
+    this.db.exec('DELETE FROM search_index');
   }
 
   isRebuilding(): boolean {

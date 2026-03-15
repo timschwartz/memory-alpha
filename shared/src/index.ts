@@ -13,4 +13,7 @@ export type {
   SearchResult,
   CategorySummary,
   HealthStatus,
+  IndexingStatus,
+  IndexingStartRequest,
+  IndexingStartResponse,
 } from './types/wiki.js';
