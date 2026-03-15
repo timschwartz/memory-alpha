@@ -54,7 +54,7 @@ export function createApp(db: Database.Database, options: AppOptions = {}): expr
   if (hasStaticDir && options.staticDir) {
     const resolvedDir = path.resolve(options.staticDir);
     app.use(express.static(resolvedDir));
-    app.get('*', (_req, res) => {
+    app.get('/{*path}', (_req, res) => {
       res.sendFile(path.join(resolvedDir, 'index.html'));
     });
   }
