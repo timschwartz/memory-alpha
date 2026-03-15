@@ -48,7 +48,6 @@ export default function SettingsPage() {
     );
   }
 
-  const isIdle = status?.state === 'idle';
   const isInProgress = status?.state === 'in-progress';
   const isComplete = status?.state === 'complete';
   const hasIndex = (status?.indexedPages ?? 0) > 0;

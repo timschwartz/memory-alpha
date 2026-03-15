@@ -1,4 +1,5 @@
 import wtf from 'wtf_wikipedia';
+// @ts-ignore - no type declarations available
 import wtfHtml from 'wtf-plugin-html';
 import _DOMPurify from 'dompurify';
 

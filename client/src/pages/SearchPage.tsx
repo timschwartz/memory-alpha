@@ -1,5 +1,5 @@
 import { useSearchParams, Link } from 'react-router-dom';
-import type { SearchResult, PaginationMeta } from '@memory-alpha/shared';
+import type { SearchResult } from '@memory-alpha/shared';
 import { apiGet } from '../api/client';
 import { useApi } from '../hooks/useApi';
 import { sanitizeSnippet } from '../lib/wikitext-parser';
