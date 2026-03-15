@@ -24,13 +24,13 @@
 
 **Purpose**: Initialize the monorepo, install dependencies, configure TypeScript and tooling
 
-- [ ] T001 Create monorepo root with npm workspaces in package.json, .gitignore, README.md, and data/.gitkeep placeholder
-- [ ] T002 Initialize server/ workspace with package.json, tsconfig.json (strict mode), and vitest.config.ts
-- [ ] T003 [P] Initialize shared/ workspace with package.json and tsconfig.json (strict mode) in shared/
-- [ ] T004 Install dependencies: saxes, better-sqlite3, @types/better-sqlite3, commander in server/package.json
-- [ ] T005 [P] Configure ESLint with TypeScript rules in server/.eslintrc.cjs
-- [ ] T006 [P] Configure Prettier in root .prettierrc
-- [ ] T028 [P] Configure lint-staged + husky for pre-commit lint and type-check hooks in root package.json
+- [x] T001 Create monorepo root with npm workspaces in package.json, .gitignore, README.md, and data/.gitkeep placeholder
+- [x] T002 Initialize server/ workspace with package.json, tsconfig.json (strict mode), and vitest.config.ts
+- [x] T003 [P] Initialize shared/ workspace with package.json and tsconfig.json (strict mode) in shared/
+- [x] T004 Install dependencies: saxes, better-sqlite3, @types/better-sqlite3, commander in server/package.json
+- [x] T005 [P] Configure ESLint with TypeScript rules in server/.eslintrc.cjs
+- [x] T006 [P] Configure Prettier in root .prettierrc
+- [x] T028 [P] Configure lint-staged + husky for pre-commit lint and type-check hooks in root package.json
 
 ---
 
@@ -40,11 +40,11 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T007 Define shared TypeScript interfaces (PageData, RevisionData, NamespaceData, ImportOptions, ImportProgress, ImportResult) in shared/src/types/wiki.ts
-- [ ] T008 Re-export shared types from shared/src/index.ts
-- [ ] T009 Implement database initialization module with schema DDL (CREATE TABLE IF NOT EXISTS for namespaces, pages, revisions, categories, page_categories), WAL mode, and performance PRAGMAs in server/src/models/database.ts
-- [ ] T010 Create sample MediaWiki XML test fixture (3-5 pages across 2 namespaces, with multiple revisions per page, category links, and edge cases: redirect page, page with empty text, page with special characters in title, page with no categories) in server/tests/fixtures/sample-export.xml
-- [ ] T029 Implement schema migration system with version tracking table (schema_version) and incremental DDL runner in server/src/models/database.ts
+- [x] T007 Define shared TypeScript interfaces (PageData, RevisionData, NamespaceData, ImportOptions, ImportProgress, ImportResult) in shared/src/types/wiki.ts
+- [x] T008 Re-export shared types from shared/src/index.ts
+- [x] T009 Implement database initialization module with schema DDL (CREATE TABLE IF NOT EXISTS for namespaces, pages, revisions, categories, page_categories), WAL mode, and performance PRAGMAs in server/src/models/database.ts
+- [x] T010 Create sample MediaWiki XML test fixture (3-5 pages across 2 namespaces, with multiple revisions per page, category links, and edge cases: redirect page, page with empty text, page with special characters in title, page with no categories) in server/tests/fixtures/sample-export.xml
+- [x] T029 Implement schema migration system with version tracking table (schema_version) and incremental DDL runner in server/src/models/database.ts
 
 **Checkpoint**: Foundation ready — shared types defined, database auto-initializes with migrations, test fixture available
 
@@ -58,10 +58,10 @@
 
 ### Implementation for User Story 2
 
-- [ ] T011 [P] [US2] Implement Namespace model with upsert prepared statement in server/src/models/namespace.ts
-- [ ] T012 [P] [US2] Implement Page model with upsert prepared statement (INSERT ... ON CONFLICT(page_id) DO UPDATE) in server/src/models/page.ts
-- [ ] T013 [P] [US2] Implement Revision model with upsert prepared statement (INSERT ... ON CONFLICT(revision_id) DO UPDATE) in server/src/models/revision.ts
-- [ ] T014 [P] [US2] Implement Category and PageCategory models with insert-or-ignore for categories and delete+re-insert for page_categories in server/src/models/category.ts
+- [x] T011 [P] [US2] Implement Namespace model with upsert prepared statement in server/src/models/namespace.ts
+- [x] T012 [P] [US2] Implement Page model with upsert prepared statement (INSERT ... ON CONFLICT(page_id) DO UPDATE) in server/src/models/page.ts
+- [x] T013 [P] [US2] Implement Revision model with upsert prepared statement (INSERT ... ON CONFLICT(revision_id) DO UPDATE) in server/src/models/revision.ts
+- [x] T014 [P] [US2] Implement Category and PageCategory models with insert-or-ignore for categories and delete+re-insert for page_categories in server/src/models/category.ts
 
 **Checkpoint**: All data models created with prepared UPSERT statements. Database can be initialized and tables verified.
 
@@ -75,11 +75,11 @@
 
 ### Implementation for User Story 1
 
-- [ ] T015 [US1] Implement SAX stream parser wrapper (saxes) with event handlers for siteinfo, page, revision, text, contributor elements in server/src/lib/xml-parser.ts
-- [ ] T016 [US1] Implement MediaWikiImporter class with batch transaction logic (1000 pages per commit), progress callback, error handling, and log file writer in server/src/lib/importer.ts
-- [ ] T017 [US1] Implement CLI entry point using commander with required xml-file argument, --database, --log options, progress display to stderr, and summary to stdout in server/src/cli/import.ts
-- [ ] T018 [US1] Add bin entry for mw-import in server/package.json pointing to compiled server/dist/cli/import.js
-- [ ] T019 [US1] Add npm scripts: build (tsc), start (node dist/cli/import.js) in server/package.json
+- [x] T015 [US1] Implement SAX stream parser wrapper (saxes) with event handlers for siteinfo, page, revision, text, contributor elements in server/src/lib/xml-parser.ts
+- [x] T016 [US1] Implement MediaWikiImporter class with batch transaction logic (1000 pages per commit), progress callback, error handling, and log file writer in server/src/lib/importer.ts
+- [x] T017 [US1] Implement CLI entry point using commander with required xml-file argument, --database, --log options, progress display to stderr, and summary to stdout in server/src/cli/import.ts
+- [x] T018 [US1] Add bin entry for mw-import in server/package.json pointing to compiled server/dist/cli/import.js
+- [x] T019 [US1] Add npm scripts: build (tsc), start (node dist/cli/import.js) in server/package.json
 
 **Checkpoint**: Full import pipeline works end-to-end. `npx mw-import sample-export.xml` populates the database correctly. Re-running produces identical state (idempotent).
 
@@ -93,8 +93,8 @@
 
 ### Implementation for User Story 3
 
-- [ ] T020 [US3] Add --namespaces option parsing (comma-separated integers) to CLI in server/src/cli/import.ts
-- [ ] T021 [US3] Add namespace filtering logic to MediaWikiImporter — skip pages whose namespace_id is not in the filter set (when filter is provided) in server/src/lib/importer.ts
+- [x] T020 [US3] Add --namespaces option parsing (comma-separated integers) to CLI in server/src/cli/import.ts
+- [x] T021 [US3] Add namespace filtering logic to MediaWikiImporter — skip pages whose namespace_id is not in the filter set (when filter is provided) in server/src/lib/importer.ts
 
 **Checkpoint**: Running with `--namespaces 0` imports only main articles. Running without the flag imports all namespaces.
 
@@ -108,8 +108,8 @@
 
 ### Implementation for User Story 4
 
-- [ ] T022 [US4] Implement category extractor function that strips nowiki/comments/pre blocks then matches [[Category:Name]] patterns in server/src/lib/category-extractor.ts
-- [ ] T023 [US4] Integrate category extraction into MediaWikiImporter — after upserting a page, extract categories from the latest revision text (highest revision_id), upsert category rows, delete+re-insert page_categories in server/src/lib/importer.ts
+- [x] T022 [US4] Implement category extractor function that strips nowiki/comments/pre blocks then matches [[Category:Name]] patterns in server/src/lib/category-extractor.ts
+- [x] T023 [US4] Integrate category extraction into MediaWikiImporter — after upserting a page, extract categories from the latest revision text (highest revision_id), upsert category rows, delete+re-insert page_categories in server/src/lib/importer.ts
 
 **Checkpoint**: After import, categories are queryable. `SELECT c.name FROM categories c JOIN page_categories pc ON c.category_id = pc.category_id WHERE pc.page_id = ?` returns correct categories.
 
@@ -119,10 +119,10 @@
 
 **Purpose**: Unit and integration tests for all non-trivial modules per Constitution Principle VI
 
-- [ ] T030 [P] Unit test for SAX stream parser: siteinfo extraction, page/revision/contributor events, malformed XML recovery, empty text elements in server/tests/unit/xml-parser.test.ts
-- [ ] T031 [P] Unit test for category extractor: standard [[Category:...]] links, nowiki/comments/pre exclusion zones, empty input, special characters, no categories in server/tests/unit/category-extractor.test.ts
-- [ ] T032 [P] Unit test for MediaWikiImporter: batch commit at 1000 pages, idempotent upsert behavior, skipped malformed pages, progress callback invocation in server/tests/unit/importer.test.ts
-- [ ] T033 Integration test for import pipeline end-to-end: CLI invocation → XML parse → DB upsert → verify page/revision/category counts and content integrity → re-run for idempotency in server/tests/integration/import-pipeline.test.ts
+- [x] T030 [P] Unit test for SAX stream parser: siteinfo extraction, page/revision/contributor events, malformed XML recovery, empty text elements in server/tests/unit/xml-parser.test.ts
+- [x] T031 [P] Unit test for category extractor: standard [[Category:...]] links, nowiki/comments/pre exclusion zones, empty input, special characters, no categories in server/tests/unit/category-extractor.test.ts
+- [x] T032 [P] Unit test for MediaWikiImporter: batch commit at 1000 pages, idempotent upsert behavior, skipped malformed pages, progress callback invocation in server/tests/unit/importer.test.ts
+- [x] T033 Integration test for import pipeline end-to-end: CLI invocation → XML parse → DB upsert → verify page/revision/category counts and content integrity → re-run for idempotency in server/tests/integration/import-pipeline.test.ts
 
 **Checkpoint**: All unit and integration tests pass. Test coverage for xml-parser, category-extractor, importer, and end-to-end pipeline.
 
@@ -132,11 +132,11 @@
 
 **Purpose**: Documentation, validation, and cleanup across all stories
 
-- [ ] T024 [P] Add build scripts to root package.json (build all workspaces, clean) in package.json
-- [ ] T025 [P] Update quickstart.md with final verified commands and output examples in specs/001-mediawiki-xml-importer/quickstart.md
-- [ ] T026 Run quickstart.md validation — execute the full import flow from scratch and verify all steps complete successfully
-- [ ] T027 [P] Add .gitignore entries for data/*.xml, *.db, *.log, node_modules/, dist/ in .gitignore
-- [ ] T034 Verify peak memory usage stays below 512 MB during fixture import by monitoring RSS (SC-001 validation)
+- [x] T024 [P] Add build scripts to root package.json (build all workspaces, clean) in package.json
+- [x] T025 [P] Update quickstart.md with final verified commands and output examples in specs/001-mediawiki-xml-importer/quickstart.md
+- [x] T026 Run quickstart.md validation — execute the full import flow from scratch and verify all steps complete successfully
+- [x] T027 [P] Add .gitignore entries for data/*.xml, *.db, *.log, node_modules/, dist/ in .gitignore
+- [x] T034 Verify peak memory usage stays below 512 MB during fixture import by monitoring RSS (SC-001 validation)
 
 ---
 

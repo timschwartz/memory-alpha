@@ -1,0 +1,166 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.11/" xml:lang="en">
+  <siteinfo>
+    <sitename>Memory Alpha</sitename>
+    <dbname>en_memory_alpha</dbname>
+    <base>https://memory-alpha.fandom.com/wiki/Main_Page</base>
+    <generator>MediaWiki 1.39.0</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">Talk</namespace>
+      <namespace key="14" case="first-letter">Category</namespace>
+    </namespaces>
+  </siteinfo>
+
+  <page>
+    <title>James T. Kirk</title>
+    <ns>0</ns>
+    <id>1001</id>
+    <revision>
+      <id>5001</id>
+      <timestamp>2003-11-23T14:54:23Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="120">'''James Tiberius Kirk''' was a [[Human]] male who served in [[Starfleet]].
+[[Category:Humans]]
+[[Category:Starfleet captains]]</text>
+      <sha1>abc123def456</sha1>
+    </revision>
+    <revision>
+      <id>5002</id>
+      <parentid>5001</parentid>
+      <timestamp>2004-01-15T09:30:00Z</timestamp>
+      <contributor>
+        <username>Editor1</username>
+        <id>42</id>
+      </contributor>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="200">'''James Tiberius Kirk''' was a [[Human]] male who served in [[Starfleet]] as captain of the [[USS Enterprise (NCC-1701)]].
+
+He was born in [[Riverside, Iowa]] on [[Earth]].
+[[Category:Humans]]
+[[Category:Starfleet captains]]
+[[Category:USS Enterprise (NCC-1701) personnel]]</text>
+      <sha1>def789ghi012</sha1>
+    </revision>
+  </page>
+
+  <page>
+    <title>USS Enterprise (NCC-1701)</title>
+    <ns>0</ns>
+    <id>1002</id>
+    <revision>
+      <id>5003</id>
+      <timestamp>2003-12-01T10:00:00Z</timestamp>
+      <contributor>
+        <ip>192.168.1.100</ip>
+      </contributor>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="95">The '''USS Enterprise (NCC-1701)''' was a [[Constitution class]] [[starship]].
+[[Category:Constitution class starships]]
+[[Category:Federation starships]]</text>
+      <sha1>feed1234beef</sha1>
+    </revision>
+  </page>
+
+  <page>
+    <title>Redirect Page</title>
+    <ns>0</ns>
+    <id>1003</id>
+    <revision>
+      <id>5004</id>
+      <timestamp>2004-05-20T12:00:00Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="30">#REDIRECT [[James T. Kirk]]</text>
+      <sha1>redir0001</sha1>
+    </revision>
+  </page>
+
+  <page>
+    <title>Empty Content Page</title>
+    <ns>0</ns>
+    <id>1004</id>
+    <revision>
+      <id>5005</id>
+      <timestamp>2004-06-01T08:00:00Z</timestamp>
+      <contributor>
+        <username>Editor1</username>
+        <id>42</id>
+      </contributor>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="0"></text>
+      <sha1></sha1>
+    </revision>
+  </page>
+
+  <page>
+    <title>O'Brien's "Special" &amp; Unique — Page</title>
+    <ns>0</ns>
+    <id>1005</id>
+    <revision>
+      <id>5006</id>
+      <timestamp>2004-07-10T15:30:00Z</timestamp>
+      <contributor>
+        <username>Contributor3</username>
+        <id>99</id>
+      </contributor>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="150">This page has special characters in its title: quotes, ampersands, and em-dashes.
+&lt;!-- [[Category:Hidden category]] --&gt;
+&lt;nowiki&gt;[[Category:Nowiki category]]&lt;/nowiki&gt;
+[[Category:Real category]]</text>
+      <sha1>special001</sha1>
+    </revision>
+  </page>
+
+  <page>
+    <title>Talk:James T. Kirk</title>
+    <ns>1</ns>
+    <id>2001</id>
+    <revision>
+      <id>6001</id>
+      <timestamp>2004-02-01T11:00:00Z</timestamp>
+      <contributor>
+        <username>Talker</username>
+        <id>55</id>
+      </contributor>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="40">This is a discussion about [[James T. Kirk]].</text>
+      <sha1>talk001</sha1>
+    </revision>
+  </page>
+
+  <page>
+    <title>Category:Humans</title>
+    <ns>14</ns>
+    <id>3001</id>
+    <revision>
+      <id>7001</id>
+      <timestamp>2003-11-20T09:00:00Z</timestamp>
+      <contributor>
+        <username>Admin</username>
+        <id>1</id>
+      </contributor>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="50">Pages about [[Human]] characters.
+[[Category:Species]]</text>
+      <sha1>cat001</sha1>
+    </revision>
+  </page>
+
+</mediawiki>

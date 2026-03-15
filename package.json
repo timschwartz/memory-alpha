@@ -1,0 +1,13 @@
+{
+  "name": "memory-alpha",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "shared",
+    "server"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "clean": "rm -rf server/dist shared/dist"
+  }
+}

@@ -1,1 +1,19 @@
+# Data files
 data/*.xml
+*.db
+*.db-shm
+*.db-wal
+*.log
+
+# Node.js
+node_modules/
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+
+# Environment
+.env*
