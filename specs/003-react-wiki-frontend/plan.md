@@ -62,7 +62,6 @@ client/
 ├── package.json
 ├── tsconfig.json
 ├── vite.config.ts
-├── tailwind.config.ts
 ├── index.html
 ├── src/
 │   ├── main.tsx                  # App entry point
@@ -88,13 +87,14 @@ client/
 └── tests/
     ├── unit/
     │   ├── wikitext-parser.test.ts
-    │   ├── api-client.test.ts
-    │   └── sanitize.test.ts
+    │   └── api-client.test.ts
     └── components/
         ├── Header.test.tsx
         ├── ArticlePage.test.tsx
         ├── BrowsePage.test.tsx
         ├── SearchPage.test.tsx
+        ├── CategoryListPage.test.tsx
+        ├── CategoryPage.test.tsx
         └── Pagination.test.tsx
 ```
 
