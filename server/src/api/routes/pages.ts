@@ -137,7 +137,8 @@ export function createPagesRouter(
 
   // GET /api/pages/:title — single article by title with namespace resolution
   router.get('/:title', (req: Request, res: Response) => {
-    const { title, namespaceId } = resolveNamespace(req.params.title as string, namespaceModel);
+    const rawTitle = (req.params.title as string).replace(/_/g, ' ');
+    const { title, namespaceId } = resolveNamespace(rawTitle, namespaceModel);
 
     const page = pageModel.getByTitle(title, namespaceId);
     if (!page) {

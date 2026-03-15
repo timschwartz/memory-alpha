@@ -20,7 +20,7 @@ export class PageModel {
       SELECT p.page_id, p.title, p.namespace_id, n.name AS namespace_name
       FROM pages p
       JOIN namespaces n ON n.namespace_id = p.namespace_id
-      WHERE p.title = ? AND p.namespace_id = ?
+      WHERE p.title = ? COLLATE NOCASE AND p.namespace_id = ?
     `);
 
     this.getByIdStmt = db.prepare(`
