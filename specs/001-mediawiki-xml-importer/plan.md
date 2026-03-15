@@ -70,7 +70,7 @@ server/
 │   │   ├── namespace.ts       # Namespace model / queries
 │   │   └── category.ts        # Category & PageCategory models / queries
 │   └── types/
-│       └── index.ts           # Shared interfaces (PageData, RevisionData, etc.)
+│       └── index.ts           # Re-exports from shared/src/types/wiki.ts for local convenience
 ├── tests/
 │   ├── unit/
 │   │   ├── xml-parser.test.ts

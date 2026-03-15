@@ -99,8 +99,8 @@ During import, the system extracts category memberships from each page's **lates
 - **FR-005**: The system MUST insert new pages and update existing pages (matched by page ID), and insert new revisions and update existing revisions (matched by revision ID) — the import operation MUST be idempotent.
 - **FR-006**: The system MUST extract `[[Category:...]]` links from the **latest revision** of each page's wikitext and store them as structured relationships. Historical revisions are not scanned for categories.
 - **FR-007**: The system MUST store namespace definitions from the `<siteinfo>` section of the XML.
-- **FR-008**: The system MUST provide a CLI entry point that accepts: the XML file path (required), database file path (optional, with a sensible default), and namespace filter (optional).
-- **FR-009**: The CLI MUST display import progress to stderr (page count, elapsed time) and a final summary to stdout. Warnings and errors MUST also be written to a log file (e.g., `import.log` alongside the database file) for post-run diagnostics.
+- **FR-008**: The system MUST provide a CLI entry point that accepts: the XML file path (required), database file path (optional, default: `./memory-alpha.db`), and namespace filter (optional).
+- **FR-009**: The CLI MUST display import progress to stderr (page count, elapsed time) and a final summary to stdout. Warnings and errors MUST also be written to a log file (default: `./import.log` in the current working directory) for post-run diagnostics.
 - **FR-010**: The system MUST automatically initialize the database schema (create tables) if the database file does not exist or tables are missing.
 - **FR-011**: The system MUST use database transactions to batch inserts for performance, committing every 1000 pages (with their associated revisions and category links).
 - **FR-012**: The system MUST handle and log malformed pages without aborting the entire import. Errors MUST be written to both stderr and the log file with sufficient detail to identify the problematic page.
