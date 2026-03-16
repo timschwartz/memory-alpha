@@ -185,6 +185,7 @@ export default function SettingsPage() {
   const isInProgress = status?.state === 'in-progress';
   const isComplete = status?.state === 'complete';
   const hasIndex = (status?.indexedPages ?? 0) > 0;
+  const isFullyIndexed = hasIndex && status!.indexedPages >= status!.totalPages;
   const percentage = status?.percentage ?? 0;
 
   const dlPercent = dlStatus?.percent ?? 0;
@@ -414,9 +415,9 @@ export default function SettingsPage() {
               <button
                 onClick={() => handleStart('continue')}
                 className="rounded bg-lcars-amber dark:bg-lcars-amber-d px-4 py-2 text-sm font-medium text-lcars-black hover:bg-lcars-sunset dark:hover:bg-lcars-sunset-d disabled:opacity-50 transition-colors"
-                disabled={isInProgress}
+                disabled={isInProgress || isFullyIndexed}
               >
-                {hasIndex ? 'Continue Indexing' : 'Build Index'}
+                {isFullyIndexed ? 'Fully Indexed' : hasIndex ? 'Continue Indexing' : 'Build Index'}
               </button>
               {hasIndex && (
                 <button
