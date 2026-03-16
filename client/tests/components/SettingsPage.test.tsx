@@ -13,6 +13,10 @@ vi.mock('../../src/api/client', () => ({
   apiPost: (...args: unknown[]) => mockApiPost(...args),
 }));
 
+vi.mock('../../src/hooks/useSSE', () => ({
+  useSSE: () => ({ connected: false, error: false }),
+}));
+
 // Mock matchMedia for ThemeProvider
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
@@ -28,6 +32,42 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: vi.fn(),
   }),
 });
+
+const idleIndexingStatus = {
+  data: {
+    state: 'idle',
+    indexedPages: 0,
+    totalPages: 1000,
+    percentage: 0,
+    startedAt: null,
+    completedAt: null,
+    durationMs: null,
+  },
+};
+
+const idleDlStatus = {
+  data: {
+    state: 'idle',
+    phase: null,
+    percent: null,
+    downloadedBytes: null,
+    totalBytes: null,
+    error: null,
+    startedAt: null,
+    completedAt: null,
+  },
+};
+
+const emptyFiles = { data: [] };
+
+function mockDefaultApiGet() {
+  mockApiGet.mockImplementation((path: string) => {
+    if (path === '/indexing/status') return Promise.resolve(idleIndexingStatus);
+    if (path === '/database/status') return Promise.resolve(idleDlStatus);
+    if (path === '/database/files') return Promise.resolve(emptyFiles);
+    return Promise.resolve({ data: null });
+  });
+}
 
 function renderSettings() {
   return render(
@@ -57,17 +97,7 @@ describe('SettingsPage', () => {
   });
 
   it('displays idle state with Build Index button when no index exists', async () => {
-    mockApiGet.mockResolvedValue({
-      data: {
-        state: 'idle',
-        indexedPages: 0,
-        totalPages: 1000,
-        percentage: 0,
-        startedAt: null,
-        completedAt: null,
-        durationMs: null,
-      },
-    });
+    mockDefaultApiGet();
 
     renderSettings();
 
@@ -79,16 +109,11 @@ describe('SettingsPage', () => {
   });
 
   it('displays idle state with Continue and Rebuild buttons when partial index exists', async () => {
-    mockApiGet.mockResolvedValue({
-      data: {
-        state: 'idle',
-        indexedPages: 500,
-        totalPages: 1000,
-        percentage: 50,
-        startedAt: null,
-        completedAt: null,
-        durationMs: null,
-      },
+    mockApiGet.mockImplementation((path: string) => {
+      if (path === '/indexing/status') return Promise.resolve({ data: { state: 'idle', indexedPages: 500, totalPages: 1000, percentage: 50, startedAt: null, completedAt: null, durationMs: null } });
+      if (path === '/database/status') return Promise.resolve(idleDlStatus);
+      if (path === '/database/files') return Promise.resolve(emptyFiles);
+      return Promise.resolve({ data: null });
     });
 
     renderSettings();
@@ -100,16 +125,11 @@ describe('SettingsPage', () => {
   });
 
   it('displays in-progress state with progress bar', async () => {
-    mockApiGet.mockResolvedValue({
-      data: {
-        state: 'in-progress',
-        indexedPages: 500,
-        totalPages: 1000,
-        percentage: 50,
-        startedAt: '2026-03-15T10:00:00.000Z',
-        completedAt: null,
-        durationMs: 5000,
-      },
+    mockApiGet.mockImplementation((path: string) => {
+      if (path === '/indexing/status') return Promise.resolve({ data: { state: 'in-progress', indexedPages: 500, totalPages: 1000, percentage: 50, startedAt: '2026-03-15T10:00:00.000Z', completedAt: null, durationMs: 5000 } });
+      if (path === '/database/status') return Promise.resolve(idleDlStatus);
+      if (path === '/database/files') return Promise.resolve(emptyFiles);
+      return Promise.resolve({ data: null });
     });
 
     renderSettings();
@@ -123,16 +143,11 @@ describe('SettingsPage', () => {
   });
 
   it('displays complete state with duration', async () => {
-    mockApiGet.mockResolvedValue({
-      data: {
-        state: 'complete',
-        indexedPages: 1000,
-        totalPages: 1000,
-        percentage: 100,
-        startedAt: '2026-03-15T10:00:00.000Z',
-        completedAt: '2026-03-15T10:00:05.000Z',
-        durationMs: 5000,
-      },
+    mockApiGet.mockImplementation((path: string) => {
+      if (path === '/indexing/status') return Promise.resolve({ data: { state: 'complete', indexedPages: 1000, totalPages: 1000, percentage: 100, startedAt: '2026-03-15T10:00:00.000Z', completedAt: '2026-03-15T10:00:05.000Z', durationMs: 5000 } });
+      if (path === '/database/status') return Promise.resolve(idleDlStatus);
+      if (path === '/database/files') return Promise.resolve(emptyFiles);
+      return Promise.resolve({ data: null });
     });
 
     renderSettings();
@@ -146,16 +161,11 @@ describe('SettingsPage', () => {
   it('calls apiPost with continue mode when Continue Indexing clicked', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
-    mockApiGet.mockResolvedValue({
-      data: {
-        state: 'idle',
-        indexedPages: 500,
-        totalPages: 1000,
-        percentage: 50,
-        startedAt: null,
-        completedAt: null,
-        durationMs: null,
-      },
+    mockApiGet.mockImplementation((path: string) => {
+      if (path === '/indexing/status') return Promise.resolve({ data: { state: 'idle', indexedPages: 500, totalPages: 1000, percentage: 50, startedAt: null, completedAt: null, durationMs: null } });
+      if (path === '/database/status') return Promise.resolve(idleDlStatus);
+      if (path === '/database/files') return Promise.resolve(emptyFiles);
+      return Promise.resolve({ data: null });
     });
     mockApiPost.mockResolvedValue({ data: { status: 'started', totalPages: 1000 } });
 
@@ -173,16 +183,11 @@ describe('SettingsPage', () => {
   it('calls apiPost with rebuild mode when Rebuild Index clicked', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
-    mockApiGet.mockResolvedValue({
-      data: {
-        state: 'complete',
-        indexedPages: 1000,
-        totalPages: 1000,
-        percentage: 100,
-        startedAt: '2026-03-15T10:00:00.000Z',
-        completedAt: '2026-03-15T10:00:05.000Z',
-        durationMs: 5000,
-      },
+    mockApiGet.mockImplementation((path: string) => {
+      if (path === '/indexing/status') return Promise.resolve({ data: { state: 'complete', indexedPages: 1000, totalPages: 1000, percentage: 100, startedAt: '2026-03-15T10:00:00.000Z', completedAt: '2026-03-15T10:00:05.000Z', durationMs: 5000 } });
+      if (path === '/database/status') return Promise.resolve(idleDlStatus);
+      if (path === '/database/files') return Promise.resolve(emptyFiles);
+      return Promise.resolve({ data: null });
     });
     mockApiPost.mockResolvedValue({ data: { status: 'started', totalPages: 1000 } });
 
@@ -200,17 +205,7 @@ describe('SettingsPage', () => {
   it('shows error message when start fails', async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
-    mockApiGet.mockResolvedValue({
-      data: {
-        state: 'idle',
-        indexedPages: 0,
-        totalPages: 1000,
-        percentage: 0,
-        startedAt: null,
-        completedAt: null,
-        durationMs: null,
-      },
-    });
+    mockDefaultApiGet();
     mockApiPost.mockRejectedValue(new Error('Indexing is already in progress'));
 
     renderSettings();
@@ -226,32 +221,29 @@ describe('SettingsPage', () => {
     });
   });
 
-  it('polls status every 2 seconds while in-progress', async () => {
-    mockApiGet.mockResolvedValue({
-      data: {
-        state: 'in-progress',
-        indexedPages: 500,
-        totalPages: 1000,
-        percentage: 50,
-        startedAt: '2026-03-15T10:00:00.000Z',
-        completedAt: null,
-        durationMs: 5000,
-      },
+  it('renders Database section with Download button', async () => {
+    mockDefaultApiGet();
+
+    renderSettings();
+
+    await waitFor(() => {
+      expect(screen.getByText(/database/i)).toBeInTheDocument();
+    });
+    expect(screen.getByRole('button', { name: /download/i })).toBeInTheDocument();
+  });
+
+  it('displays XML file list when files exist', async () => {
+    mockApiGet.mockImplementation((path: string) => {
+      if (path === '/indexing/status') return Promise.resolve(idleIndexingStatus);
+      if (path === '/database/status') return Promise.resolve(idleDlStatus);
+      if (path === '/database/files') return Promise.resolve({ data: [{ filename: 'enmemoryalpha_pages_current.xml', sizeBytes: 1048576, modifiedAt: '2026-03-10T00:00:00.000Z' }] });
+      return Promise.resolve({ data: null });
     });
 
     renderSettings();
 
     await waitFor(() => {
-      expect(screen.getByText('in-progress')).toBeInTheDocument();
-    });
-
-    const initialCallCount = mockApiGet.mock.calls.length;
-
-    // Advance 2 seconds — should trigger a poll
-    await vi.advanceTimersByTimeAsync(2000);
-
-    await waitFor(() => {
-      expect(mockApiGet.mock.calls.length).toBeGreaterThan(initialCallCount);
+      expect(screen.getByText('enmemoryalpha_pages_current.xml')).toBeInTheDocument();
     });
   });
 });

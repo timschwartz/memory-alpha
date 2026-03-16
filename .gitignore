@@ -1,5 +1,6 @@
 # Data files
 data/*.xml
+data/*.7z
 *.db
 *.db-shm
 *.db-wal

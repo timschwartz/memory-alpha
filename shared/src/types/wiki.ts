@@ -129,3 +129,101 @@ export interface IndexingStartResponse {
   status: 'started';
   totalPages: number;
 }
+
+// Database Download Management Types
+
+export type DownloadState = 'idle' | 'downloading' | 'decompressing' | 'complete' | 'failed' | 'cancelled';
+
+export interface DownloadStatus {
+  state: DownloadState;
+  phase: 'download' | 'decompress' | null;
+  percent: number | null;
+  downloadedBytes: number | null;
+  totalBytes: number | null;
+  error: string | null;
+  startedAt: string | null;
+  completedAt: string | null;
+}
+
+export interface XmlFileInfo {
+  filename: string;
+  sizeBytes: number;
+  sizeHuman: string;
+  modifiedAt: string;
+  ageMs: number;
+  isMemoryAlphaDump: boolean;
+  isFresh: boolean;
+}
+
+// SSE Event Payloads
+
+export interface DownloadProgressEvent {
+  state: 'downloading' | 'decompressing';
+  phase: 'download' | 'decompress';
+  percent: number | null;
+  downloadedBytes: number | null;
+  totalBytes: number | null;
+}
+
+export interface DownloadCompleteEvent {
+  filename: string;
+  sizeBytes: number;
+  sizeHuman: string;
+}
+
+export interface DownloadErrorEvent {
+  message: string;
+}
+
+export interface IndexingProgressEvent {
+  state: 'in-progress';
+  indexedPages: number;
+  totalPages: number;
+  percentage: number;
+  durationMs: number;
+}
+
+export interface IndexingCompleteEvent {
+  indexedPages: number;
+  totalPages: number;
+  durationMs: number;
+}
+
+export interface IndexingErrorEvent {
+  message: string;
+}
+
+export interface ImportProgressSSEEvent {
+  filename: string;
+  pagesProcessed: number;
+  revisionsProcessed: number;
+  pagesSkipped: number;
+  elapsedMs: number;
+}
+
+export interface ImportCompleteSSEEvent {
+  filename: string;
+  totalPages: number;
+  totalRevisions: number;
+  totalCategories: number;
+  skippedPages: number;
+  durationMs: number;
+}
+
+export interface ImportErrorSSEEvent {
+  filename: string;
+  message: string;
+}
+
+export type ApiErrorCode =
+  | 'DOWNLOAD_IN_PROGRESS'
+  | 'NO_ACTIVE_DOWNLOAD'
+  | 'IMPORT_IN_PROGRESS'
+  | 'IMPORT_FAILED'
+  | 'INVALID_FILENAME'
+  | 'FILE_NOT_FOUND'
+  | 'IMPORT_FAILED'
+  | 'INDEXING_IN_PROGRESS'
+  | 'INVALID_MODE'
+  | 'NETWORK_ERROR'
+  | 'HTTP_ERROR';

@@ -13,6 +13,16 @@ interface IndexingState {
 export function createIndexingRouter(fts5Indexer: FTS5Indexer): Router {
   const router = Router();
 
+  // SSE clients for broadcasting indexing events
+  const sseClients = new Set<Response>();
+
+  function broadcastSSE(event: string, data: unknown) {
+    const payload = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
+    for (const client of sseClients) {
+      client.write(payload);
+    }
+  }
+
   const indexingState: IndexingState = {
     state: 'idle',
     startedAt: null,
@@ -60,14 +70,26 @@ export function createIndexingRouter(fts5Indexer: FTS5Indexer): Router {
     };
     res.status(202).json(body);
 
-    // Run indexing in background with event loop yielding
-    fts5Indexer.buildIncrementalAsync().then(({ durationMs }) => {
+    // Run indexing in background with event loop yielding and SSE progress
+    fts5Indexer.buildIncrementalAsync((progress) => {
+      broadcastSSE('progress', {
+        state: 'in-progress',
+        indexedPages: progress.indexedPages,
+        totalPages: progress.totalPages,
+        percentage: progress.percentage,
+        durationMs: progress.elapsedMs,
+      });
+    }).then(({ durationMs }) => {
       indexingState.state = 'complete';
       indexingState.completedAt = new Date().toISOString();
       indexingState.durationMs = durationMs;
-    }).catch(() => {
+      const indexedPages = fts5Indexer.getIndexedCount();
+      const totalPages = fts5Indexer.getTotalIndexableCount();
+      broadcastSSE('complete', { indexedPages, totalPages, durationMs });
+    }).catch((err) => {
       indexingState.state = 'idle';
       indexingState.durationMs = null;
+      broadcastSSE('error', { message: err instanceof Error ? err.message : 'Indexing failed' });
     });
   });
 
@@ -93,6 +115,22 @@ export function createIndexingRouter(fts5Indexer: FTS5Indexer): Router {
 
     const body: ApiResponse<IndexingStatus> = { data, meta: null, error: null };
     res.json(body);
+  });
+
+  // GET /api/indexing/events — SSE stream for real-time indexing progress
+  router.get('/events', (_req: Request, res: Response) => {
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+    });
+    res.write('\n');
+
+    sseClients.add(res);
+
+    _req.on('close', () => {
+      sseClients.delete(res);
+    });
   });
 
   return router;

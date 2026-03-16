@@ -10,6 +10,8 @@ import { createPagesRouter } from './routes/pages.js';
 import { createSearchRouter } from './routes/search.js';
 import { createCategoriesRouter } from './routes/categories.js';
 import { createIndexingRouter } from './routes/indexing.js';
+import { createDatabaseRouter } from './routes/database.js';
+import { DownloadManager } from '../lib/download-manager.js';
 import { PageModel } from '../models/page.js';
 import { RevisionModel } from '../models/revision.js';
 import { NamespaceModel } from '../models/namespace.js';
@@ -49,6 +51,12 @@ export function createApp(db: Database.Database, options: AppOptions = {}): expr
   app.use('/api/search', createSearchRouter(models.fts5Indexer));
   app.use('/api/categories', createCategoriesRouter(models.categoryModel, models.namespaceModel));
   app.use('/api/indexing', createIndexingRouter(models.fts5Indexer));
+
+  // Database management (download, file list, import)
+  const dataDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), '../../../data');
+  const downloadManager = new DownloadManager(dataDir);
+  const databasePath = db.name;
+  app.use('/api/database', createDatabaseRouter(downloadManager, databasePath));
 
   // Static file serving + SPA fallback (production)
   if (hasStaticDir && options.staticDir) {

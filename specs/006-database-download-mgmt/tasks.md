@@ -13,9 +13,9 @@
 
 **Purpose**: Install new dependency, add shared types, create reusable SSE infrastructure
 
-- [ ] T001 Install 7z-wasm dependency in server/package.json
-- [ ] T002 Add DownloadStatus, XmlFileInfo, SSE event types, and ApiErrorCode union to shared/src/types/wiki.ts
-- [ ] T003 Export new types from shared/src/index.ts
+- [X] T001 Install 7z-wasm dependency in server/package.json
+- [X] T002 Add DownloadStatus, XmlFileInfo, SSE event types, and ApiErrorCode union to shared/src/types/wiki.ts
+- [X] T003 Export new types from shared/src/index.ts
 
 ---
 
@@ -25,11 +25,11 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T004 [P] Create DownloadManager class (download + decompress + cancel + state + event emitter) in server/src/lib/download-manager.ts
-- [ ] T005 [P] Create useSSE React hook (generic EventSource wrapper with typed events, auto-reconnect, cleanup) in client/src/hooks/useSSE.ts
-- [ ] T006 [P] Create database route module skeleton (router, mount in app.ts) in server/src/api/routes/database.ts and server/src/api/app.ts
-- [ ] T007 Migrate indexing route to add SSE endpoint GET /api/indexing/events in server/src/api/routes/indexing.ts
-- [ ] T008 Migrate SettingsPage indexing section from polling to useSSE hook in client/src/pages/SettingsPage.tsx
+- [X] T004 [P] Create DownloadManager class (download + decompress + cancel + state + event emitter) in server/src/lib/download-manager.ts
+- [X] T005 [P] Create useSSE React hook (generic EventSource wrapper with typed events, auto-reconnect, cleanup) in client/src/hooks/useSSE.ts
+- [X] T006 [P] Create database route module skeleton (router, mount in app.ts) in server/src/api/routes/database.ts and server/src/api/app.ts
+- [X] T007 Migrate indexing route to add SSE endpoint GET /api/indexing/events in server/src/api/routes/indexing.ts
+- [X] T008 Migrate SettingsPage indexing section from polling to useSSE hook in client/src/pages/SettingsPage.tsx
 
 **Checkpoint**: SSE infrastructure in place, indexing SSE migration complete, DownloadManager service ready
 
@@ -43,12 +43,12 @@
 
 ### Implementation for User Story 1
 
-- [ ] T009 [US1] Implement POST /api/database/download endpoint (triggers DownloadManager.start, returns 202 or 409) in server/src/api/routes/database.ts
-- [ ] T010 [US1] Implement POST /api/database/cancel endpoint (triggers DownloadManager.cancel, returns 200 or 409) in server/src/api/routes/database.ts
-- [ ] T011 [US1] Implement GET /api/database/status endpoint (returns current DownloadStatus JSON) in server/src/api/routes/database.ts
-- [ ] T012 [US1] Implement GET /api/database/events SSE endpoint (streams download/decompress progress events) in server/src/api/routes/database.ts
-- [ ] T013 [US1] Create 7z-wasm Worker thread script for decompression with progress reporting in server/src/lib/decompress-worker.ts
-- [ ] T014 [US1] Add Database section card with download button, SSE progress bar, cancel button, and phase label to client/src/pages/SettingsPage.tsx
+- [X] T009 [US1] Implement POST /api/database/download endpoint (triggers DownloadManager.start, returns 202 or 409) in server/src/api/routes/database.ts
+- [X] T010 [US1] Implement POST /api/database/cancel endpoint (triggers DownloadManager.cancel, returns 200 or 409) in server/src/api/routes/database.ts
+- [X] T011 [US1] Implement GET /api/database/status endpoint (returns current DownloadStatus JSON) in server/src/api/routes/database.ts
+- [X] T012 [US1] Implement GET /api/database/events SSE endpoint (streams download/decompress progress events) in server/src/api/routes/database.ts
+- [X] T013 [US1] Create 7z-wasm Worker thread script for decompression with progress reporting in server/src/lib/decompress-worker.ts
+- [X] T014 [US1] Add Database section card with download button, SSE progress bar, cancel button, and phase label to client/src/pages/SettingsPage.tsx
 
 **Checkpoint**: User Story 1 fully functional — download, decompress, progress, cancel all working end-to-end
 
@@ -62,11 +62,11 @@
 
 ### Implementation for User Story 2
 
-- [ ] T015 [US2] Implement GET /api/database/files endpoint (scan data/ for .xml files, return XmlFileInfo[]) in server/src/api/routes/database.ts
-- [ ] T016 [US2] Implement POST /api/database/import endpoint (validate filename, trigger import via server/src/lib/importer.ts for selected file) in server/src/api/routes/database.ts
-- [ ] T017 [US2] Add XML file list table component (columns: name, size, date, import button) to Database section in client/src/pages/SettingsPage.tsx
-- [ ] T018 [US2] Add empty state message ("No XML files available — download one to get started") when file list is empty in client/src/pages/SettingsPage.tsx
-- [ ] T019 [US2] Wire import button to POST /api/database/import and refresh file list on completion in client/src/pages/SettingsPage.tsx
+- [X] T015 [US2] Implement GET /api/database/files endpoint (scan data/ for .xml files, return XmlFileInfo[]) in server/src/api/routes/database.ts
+- [X] T016 [US2] Implement POST /api/database/import endpoint (validate filename, trigger import via server/src/lib/importer.ts for selected file) in server/src/api/routes/database.ts
+- [X] T017 [US2] Add XML file list table component (columns: name, size, date, import button) to Database section in client/src/pages/SettingsPage.tsx
+- [X] T018 [US2] Add empty state message ("No XML files available — download one to get started") when file list is empty in client/src/pages/SettingsPage.tsx
+- [X] T019 [US2] Wire import button to POST /api/database/import and refresh file list on completion in client/src/pages/SettingsPage.tsx
 
 **Checkpoint**: File list displays correctly, import button triggers pipeline, empty state shown when no files exist
 
@@ -80,9 +80,9 @@
 
 ### Implementation for User Story 3
 
-- [ ] T020 [US3] Add freshness check logic to Database section — compute file age from XmlFileInfo.ageMs, show advisory notice when isFresh is true in client/src/pages/SettingsPage.tsx
-- [ ] T021 [US3] Add human-readable age formatting ("3 days ago", "12 hours ago") for freshness notice in client/src/pages/SettingsPage.tsx
-- [ ] T022 [US3] Change download button label to "Re-download" when Memory Alpha XML file already exists in client/src/pages/SettingsPage.tsx
+- [X] T020 [US3] Add freshness check logic to Database section — compute file age from XmlFileInfo.ageMs, show advisory notice when isFresh is true in client/src/pages/SettingsPage.tsx
+- [X] T021 [US3] Add human-readable age formatting ("3 days ago", "12 hours ago") for freshness notice in client/src/pages/SettingsPage.tsx
+- [X] T022 [US3] Change download button label to "Re-download" when Memory Alpha XML file already exists in client/src/pages/SettingsPage.tsx
 
 **Checkpoint**: Freshness notice displays correctly based on file age, re-download button remains functional
 
@@ -96,9 +96,9 @@
 
 ### Implementation for User Story 4
 
-- [ ] T023 [US4] Add error state handling to DownloadManager — cleanup partial .7z and extracted files on failure/cancellation in server/src/lib/download-manager.ts
-- [ ] T024 [US4] Add error display and retry button to Database section — show error message from SSE error event, enable retry in client/src/pages/SettingsPage.tsx
-- [ ] T025 [US4] Handle SSE connection errors gracefully in useSSE hook — fallback to GET /api/database/status on reconnect in client/src/hooks/useSSE.ts
+- [X] T023 [US4] Add error state handling to DownloadManager — cleanup partial .7z and extracted files on failure/cancellation in server/src/lib/download-manager.ts
+- [X] T024 [US4] Add error display and retry button to Database section — show error message from SSE error event, enable retry in client/src/pages/SettingsPage.tsx
+- [X] T025 [US4] Handle SSE connection errors gracefully in useSSE hook — fallback to GET /api/database/status on reconnect in client/src/hooks/useSSE.ts
 
 **Checkpoint**: Errors display clearly, retry works, no partial files remain after failure
 
@@ -108,11 +108,11 @@
 
 **Purpose**: Final validation, cleanup, edge cases
 
-- [ ] T026 [P] Add unit tests for DownloadManager (state transitions, cleanup, cancellation) in server/tests/unit/download-manager.test.ts
-- [ ] T027 [P] Add integration tests for database API endpoints in server/tests/integration/database-endpoints.test.ts
-- [ ] T028 [P] Add unit tests for useSSE hook in client/tests/unit/useSSE.test.ts
-- [ ] T029 [P] Update SettingsPage tests for Database section in client/tests/components/SettingsPage.test.tsx
-- [ ] T030 Run quickstart.md validation — verify end-to-end workflow from download through import
+- [X] T026 [P] Add unit tests for DownloadManager (state transitions, cleanup, cancellation) in server/tests/unit/download-manager.test.ts
+- [X] T027 [P] Add integration tests for database API endpoints in server/tests/integration/database-endpoints.test.ts
+- [X] T028 [P] Add unit tests for useSSE hook in client/tests/unit/useSSE.test.ts
+- [X] T029 [P] Update SettingsPage tests for Database section in client/tests/components/SettingsPage.test.tsx
+- [X] T030 Run quickstart.md validation — verify end-to-end workflow from download through import
 
 ---
 
