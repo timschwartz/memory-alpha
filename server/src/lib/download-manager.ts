@@ -203,7 +203,7 @@ export class DownloadManager extends EventEmitter {
         workerData: { archivePath, outputDir: this.dataDir },
       });
 
-      this.worker.on('message', (msg: { type: string; percent?: number }) => {
+      this.worker.on('message', (msg: { type: string; percent?: number; message?: string }) => {
         if (msg.type === 'progress') {
           this.status.percent = msg.percent ?? null;
           const event: DownloadProgressEvent = {
@@ -217,6 +217,9 @@ export class DownloadManager extends EventEmitter {
         } else if (msg.type === 'done') {
           this.worker = null;
           resolve();
+        } else if (msg.type === 'error') {
+          this.worker = null;
+          reject(new Error(msg.message ?? 'Decompression failed'));
         }
       });
 
