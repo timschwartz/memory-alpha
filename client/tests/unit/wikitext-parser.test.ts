@@ -106,10 +106,18 @@ describe('wikitext-parser', () => {
       expect(result.html).toContain('1946');
     });
 
-    it('renders {{wt}} as italic text', () => {
+    it('renders {{wt}} as a Wikipedia link', () => {
       const result = parseWikitext('Directed {{wt|Moonlighting (TV series)|Moonlighting}} episodes.');
       expect(result.html).toContain('Moonlighting');
-      expect(result.html).toContain('<i');
+      expect(result.html).toContain('https://en.wikipedia.org/wiki/Moonlighting_(TV_series)');
+      expect(result.html).toContain('target="_blank"');
+    });
+
+    it('renders {{w}} as a Wikipedia link', () => {
+      const result = parseWikitext('See {{w|Gliese 892}} for info.');
+      expect(result.html).toContain('Gliese 892');
+      expect(result.html).toContain('https://en.wikipedia.org/wiki/Gliese_892');
+      expect(result.html).toContain('target="_blank"');
     });
 
     it('renders {{USS}} as a ship link', () => {

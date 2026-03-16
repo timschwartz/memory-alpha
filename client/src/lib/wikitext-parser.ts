@@ -8,6 +8,11 @@ const DOMPurify = ('default' in _DOMPurify ? (_DOMPurify as unknown as { default
 
 wtf.extend(wtfHtml);
 
+const WIKIPEDIA_BASE_URL = 'https://en.wikipedia.org/wiki/';
+
+/** Map of placeholder tokens → {page, display} collected during template expansion. */
+type WikipediaPlaceholders = Map<string, { page: string; display: string }>;
+
 const WIKI_CONTENT_ALLOWED_TAGS = [
   'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
   'p', 'a', 'ul', 'ol', 'li',
@@ -67,7 +72,7 @@ const FILM_MAP: Record<string, string> = {
  * wtf_wikipedia would otherwise strip. Returns wikitext with templates
  * replaced by their equivalent wikilink / plain-text form.
  */
-function expandInlineTemplates(wikitext: string): string {
+function expandInlineTemplates(wikitext: string, placeholders: WikipediaPlaceholders): string {
   let text = wikitext;
 
   // {{dis|Page|qualifier|display}} → [[Page (qualifier)|display]]
@@ -150,17 +155,16 @@ function expandInlineTemplates(wikitext: string): string {
     (_m, name: string) => `[[${name.trim()} class|''${name.trim()}''-class]]`,
   );
 
-  // {{wt|Page|Display}} or {{wt|Page}} → ''Display'' (Wikipedia article, render as italic text)
-  text = text.replace(
-    /\{\{wt\|([^|}]+)(?:\|([^|}]+))?\}\}/gi,
-    (_m, page: string, display?: string) => `''${(display || page).trim()}''`,
-  );
-
-  // {{w|Page|Display}} or {{w|Page}} → ''Display'' (Wikipedia link)
-  text = text.replace(
-    /\{\{w\|([^|}]+)(?:\|([^|}]+))?\}\}/gi,
-    (_m, page: string, display?: string) => `''${(display || page).trim()}''`,
-  );
+  // {{wt|Page|Display}} and {{w|Page|Display}} → placeholder tokens
+  // Replaced with real Wikipedia <a> links after HTML generation.
+  let placeholderIdx = 0;
+  const wpReplacer = (_m: string, page: string, display?: string) => {
+    const token = `WPLINK${placeholderIdx++}X`;
+    placeholders.set(token, { page: page.trim(), display: (display || page).trim() });
+    return `''${token}''`;
+  };
+  text = text.replace(/\{\{wt\|([^|}]+)(?:\|([^|}]+))?\}\}/gi, wpReplacer);
+  text = text.replace(/\{\{w\|([^|}]+)(?:\|([^|}]+))?\}\}/gi, wpReplacer);
 
   // {{ma|Page|Display}} or {{ma|Page}} → [[Page|Display]] (Memory Alpha link)
   text = text.replace(
@@ -193,6 +197,20 @@ function expandInlineTemplates(wikitext: string): string {
   return text;
 }
 
+/** Replace Wikipedia placeholder tokens in HTML with real anchor tags. */
+function resolveWikipediaPlaceholders(html: string, placeholders: WikipediaPlaceholders): string {
+  let result = html;
+  for (const [token, { page, display }] of placeholders) {
+    const url = WIKIPEDIA_BASE_URL + encodeURIComponent(page.replace(/ /g, '_'));
+    const link = `<a href="${url}" target="_blank" rel="noopener noreferrer"><i>${escapeHtml(display)}</i></a>`;
+    // The token may appear wrapped in <i> tags from the ''token'' wikitext markup
+    result = result.replace(new RegExp(`<i>${token}</i>`), link);
+    // Fallback: bare token (shouldn't happen, but just in case)
+    result = result.replace(token, link);
+  }
+  return result;
+}
+
 export function parseWikitext(wikitext: string): ParseResult {
   // Check for redirect before full parse
   const redirectMatch = wikitext.match(/^#REDIRECT\s*\[\[([^\]]+)\]\]/i);
@@ -205,7 +223,8 @@ export function parseWikitext(wikitext: string): ParseResult {
     };
   }
 
-  const doc = wtf(expandInlineTemplates(wikitext));
+  const placeholders: WikipediaPlaceholders = new Map();
+  const doc = wtf(expandInlineTemplates(wikitext, placeholders));
 
   // Extract categories
   const categories = doc.categories().map((c: string) => c.replace(/^Category:/, ''));
@@ -260,8 +279,11 @@ export function parseWikitext(wikitext: string): ParseResult {
     ALLOWED_ATTR: WIKI_CONTENT_ALLOWED_ATTR,
   });
 
+  // Resolve Wikipedia link placeholders after sanitization
+  const finalHtml = resolveWikipediaPlaceholders(sanitized, placeholders);
+
   return {
-    html: sanitized,
+    html: finalHtml,
     categories,
     isRedirect: false,
     redirectTarget: null,
