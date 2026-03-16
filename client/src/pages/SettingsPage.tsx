@@ -103,9 +103,14 @@ export default function SettingsPage() {
           totalBytes: d.totalBytes,
         } : prev);
       } else if (event === 'complete') {
+        const d = data as { filename?: string };
         setDlStatus({ state: 'complete', phase: null, percent: null, downloadedBytes: null, totalBytes: null, error: null, startedAt: dlStatus?.startedAt ?? null, completedAt: new Date().toISOString() });
         setDlError(null);
         fetchFiles();
+        // Auto-start import after successful decompression
+        if (d.filename) {
+          handleImport(d.filename);
+        }
       } else if (event === 'error') {
         const d = data as { message: string };
         setDlStatus((prev) => prev ? { ...prev, state: 'failed', error: d.message } : prev);
@@ -124,6 +129,8 @@ export default function SettingsPage() {
         fetchStatus();
         // Show brief success in dlError slot (reuse for info messages)
         setDlError(`Import complete: ${d.totalPages.toLocaleString()} pages, ${d.totalRevisions.toLocaleString()} revisions in ${(d.durationMs / 1000).toFixed(1)}s`);
+        // Auto-start indexing after successful import
+        handleStart('continue');
       } else if (event === 'import-error') {
         const d = data as unknown as ImportErrorSSEEvent;
         setImportProgress(null);

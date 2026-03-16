@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces",
-    "clean": "rm -rf server/dist shared/dist"
+    "clean": "rm -rf server/dist shared/dist client/dist",
+    "serve": "cd server && node dist/api/server.js"
   }
 }
