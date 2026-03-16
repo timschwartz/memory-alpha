@@ -29,6 +29,24 @@ export interface ParseResult {
   redirectTarget: string | null;
 }
 
+/**
+ * Pre-process wikitext to expand inline templates that wtf_wikipedia
+ * would otherwise strip. Returns wikitext with templates replaced by
+ * their equivalent wikilink / plain-text form.
+ */
+function expandInlineTemplates(wikitext: string): string {
+  // {{dis|Page|qualifier|display}} → [[Page (qualifier)|display]]
+  // {{dis|Page|qualifier}}         → [[Page (qualifier)|Page]]
+  return wikitext.replace(
+    /\{\{dis\|([^|}]+)\|([^|}]+)(?:\|([^|}]+))?\}\}/gi,
+    (_match, page: string, qualifier: string, display?: string) => {
+      const target = `${page.trim()} (${qualifier.trim()})`;
+      const label = display?.trim() || page.trim();
+      return `[[${target}|${label}]]`;
+    },
+  );
+}
+
 export function parseWikitext(wikitext: string): ParseResult {
   // Check for redirect before full parse
   const redirectMatch = wikitext.match(/^#REDIRECT\s*\[\[([^\]]+)\]\]/i);
@@ -41,7 +59,7 @@ export function parseWikitext(wikitext: string): ParseResult {
     };
   }
 
-  const doc = wtf(wikitext);
+  const doc = wtf(expandInlineTemplates(wikitext));
 
   // Extract categories
   const categories = doc.categories().map((c: string) => c.replace(/^Category:/, ''));

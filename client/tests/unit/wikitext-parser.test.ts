@@ -73,6 +73,20 @@ describe('wikitext-parser', () => {
       const result = parseWikitext('* Item 1\n* Item 2\n* Item 3');
       expect(result.html).toContain('<li');
     });
+
+    it('renders {{dis}} disambiguation template as a link', () => {
+      const result = parseWikitext(
+        "'''Curzon Dax''' was the seventh [[host]] of the {{dis|Dax|symbiont|Dax symbiont}} from [[2286]]."
+      );
+      expect(result.html).toContain('Dax symbiont');
+      expect(result.html).toContain('<a');
+    });
+
+    it('renders {{dis}} without explicit display text using page name', () => {
+      const result = parseWikitext('See {{dis|Dax|symbiont}} for details.');
+      expect(result.html).toContain('Dax');
+      expect(result.html).toContain('<a');
+    });
   });
 
   describe('sanitizeSnippet', () => {
