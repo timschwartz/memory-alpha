@@ -87,6 +87,54 @@ describe('wikitext-parser', () => {
       expect(result.html).toContain('Dax');
       expect(result.html).toContain('<a');
     });
+
+    it('renders {{y}} as a year link', () => {
+      const result = parseWikitext('In {{y|1987}} something happened.');
+      expect(result.html).toContain('1987');
+      expect(result.html).toContain('<a');
+    });
+
+    it('renders {{s}} as series abbreviation link', () => {
+      const result = parseWikitext('Episodes of {{s|TNG}} are great.');
+      expect(result.html).toContain('TNG');
+      expect(result.html).toContain('href');
+    });
+
+    it('renders {{born}} as a formatted birth date', () => {
+      const result = parseWikitext("'''Person''' {{born|11|June|1946}} is an actor.");
+      expect(result.html).toContain('June 11');
+      expect(result.html).toContain('1946');
+    });
+
+    it('renders {{wt}} as italic text', () => {
+      const result = parseWikitext('Directed {{wt|Moonlighting (TV series)|Moonlighting}} episodes.');
+      expect(result.html).toContain('Moonlighting');
+      expect(result.html).toContain('<i');
+    });
+
+    it('renders {{USS}} as a ship link', () => {
+      const result = parseWikitext('Aboard the {{USS|Enterprise|NCC-1701}}.');
+      expect(result.html).toContain('Enterprise');
+      expect(result.html).toContain('<a');
+    });
+
+    it('renders {{e}} as an episode link', () => {
+      const result = parseWikitext('In {{e|The Menagerie, Part I}} we see...');
+      expect(result.html).toContain('The Menagerie, Part I');
+      expect(result.html).toContain('<a');
+    });
+
+    it('renders Paul Lynch article templates fully', () => {
+      const result = parseWikitext(
+        "'''Paul Lynch''' {{born|11|June|1946}} is a [[directors|director]] who directed ten episodes of {{s|TNG}} and {{s|DS9}} between {{y|1987}} and {{y|1993}}."
+      );
+      expect(result.html).toContain('June 11');
+      expect(result.html).toContain('1946');
+      expect(result.html).toContain('TNG');
+      expect(result.html).toContain('DS9');
+      expect(result.html).toContain('1987');
+      expect(result.html).toContain('1993');
+    });
   });
 
   describe('sanitizeSnippet', () => {
