@@ -18,7 +18,7 @@ You need [Node.js](https://nodejs.org/) (v18 or later) installed on your machine
 2. **Start the server**
 
    ```bash
-   cd server && npm run serve
+   npm run serve
    ```
 
 3. **Open your browser** to [http://localhost:3000/settings](http://localhost:3000/settings)
